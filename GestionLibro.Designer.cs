@@ -20,94 +20,104 @@
 
     private void InitializeComponent()
     {
-        this.lstLibros = new System.Windows.Forms.ListBox();
-        this.txtTitulo = new System.Windows.Forms.TextBox();
-        this.txtAutor = new System.Windows.Forms.TextBox();
-        this.txtAñoPublicacion = new System.Windows.Forms.TextBox();
-        this.btnAgregarLibro = new System.Windows.Forms.Button();
-        this.btnEliminarLibro = new System.Windows.Forms.Button();
-        this.btnModificarLibro = new System.Windows.Forms.Button();
-        this.SuspendLayout();
+        lstLibros = new ListBox();
+        txtTitulo = new TextBox();
+        txtAutor = new TextBox();
+        txtAñoPublicacion = new TextBox();
+        btnAgregarLibro = new Button();
+        btnEliminarLibro = new Button();
+        btnModificarLibro = new Button();
+        SuspendLayout();
         // 
         // lstLibros
         // 
-        this.lstLibros.FormattingEnabled = true;
-        this.lstLibros.ItemHeight = 16;
-        this.lstLibros.Location = new System.Drawing.Point(12, 12);
-        this.lstLibros.Name = "lstLibros";
-        this.lstLibros.Size = new System.Drawing.Size(400, 180);
-        this.lstLibros.TabIndex = 0;
-        this.lstLibros.SelectedIndexChanged += new System.EventHandler(this.lstLibros_SelectedIndexChanged);
+        lstLibros.BackColor = Color.YellowGreen;
+        lstLibros.FormattingEnabled = true;
+        lstLibros.ItemHeight = 15;
+        lstLibros.Location = new Point(10, 11);
+        lstLibros.Name = "lstLibros";
+        lstLibros.Size = new Size(350, 169);
+        lstLibros.TabIndex = 0;
+        lstLibros.SelectedIndexChanged += lstLibros_SelectedIndexChanged;
         // 
         // txtTitulo
         // 
-        this.txtTitulo.Location = new System.Drawing.Point(12, 210);
-        this.txtTitulo.Name = "txtTitulo";
-        this.txtTitulo.Size = new System.Drawing.Size(200, 22);
-        this.txtTitulo.TabIndex = 1;
-        this.txtTitulo.PlaceholderText = "Título del libro";
+        txtTitulo.BackColor = Color.YellowGreen;
+        txtTitulo.ForeColor = SystemColors.WindowText;
+        txtTitulo.Location = new Point(10, 197);
+        txtTitulo.Name = "txtTitulo";
+        txtTitulo.PlaceholderText = "Título del libro";
+        txtTitulo.Size = new Size(176, 23);
+        txtTitulo.TabIndex = 1;
         // 
         // txtAutor
         // 
-        this.txtAutor.Location = new System.Drawing.Point(12, 240);
-        this.txtAutor.Name = "txtAutor";
-        this.txtAutor.Size = new System.Drawing.Size(200, 22);
-        this.txtAutor.TabIndex = 2;
-        this.txtAutor.PlaceholderText = "Autor del libro";
+        txtAutor.BackColor = Color.YellowGreen;
+        txtAutor.Location = new Point(10, 225);
+        txtAutor.Name = "txtAutor";
+        txtAutor.PlaceholderText = "Autor del libro";
+        txtAutor.Size = new Size(176, 23);
+        txtAutor.TabIndex = 2;
         // 
         // txtAñoPublicacion
         // 
-        this.txtAñoPublicacion.Location = new System.Drawing.Point(12, 270);
-        this.txtAñoPublicacion.Name = "txtAñoPublicacion";
-        this.txtAñoPublicacion.Size = new System.Drawing.Size(200, 22);
-        this.txtAñoPublicacion.TabIndex = 3;
-        this.txtAñoPublicacion.PlaceholderText = "Año de publicación";
+        txtAñoPublicacion.BackColor = Color.YellowGreen;
+        txtAñoPublicacion.Location = new Point(10, 253);
+        txtAñoPublicacion.Name = "txtAñoPublicacion";
+        txtAñoPublicacion.PlaceholderText = "Año de publicación";
+        txtAñoPublicacion.Size = new Size(176, 23);
+        txtAñoPublicacion.TabIndex = 3;
         // 
         // btnAgregarLibro
         // 
-        this.btnAgregarLibro.Location = new System.Drawing.Point(220, 210);
-        this.btnAgregarLibro.Name = "btnAgregarLibro";
-        this.btnAgregarLibro.Size = new System.Drawing.Size(75, 30);
-        this.btnAgregarLibro.TabIndex = 4;
-        this.btnAgregarLibro.Text = "Agregar";
-        this.btnAgregarLibro.UseVisualStyleBackColor = true;
-        this.btnAgregarLibro.Click += new System.EventHandler(this.btnAgregarLibro_Click);
+        btnAgregarLibro.BackColor = Color.ForestGreen;
+        btnAgregarLibro.Location = new Point(192, 197);
+        btnAgregarLibro.Name = "btnAgregarLibro";
+        btnAgregarLibro.Size = new Size(66, 28);
+        btnAgregarLibro.TabIndex = 4;
+        btnAgregarLibro.Text = "Agregar";
+        btnAgregarLibro.UseVisualStyleBackColor = false;
+        btnAgregarLibro.Click += btnAgregarLibro_Click;
         // 
         // btnEliminarLibro
         // 
-        this.btnEliminarLibro.Location = new System.Drawing.Point(220, 250);
-        this.btnEliminarLibro.Name = "btnEliminarLibro";
-        this.btnEliminarLibro.Size = new System.Drawing.Size(75, 30);
-        this.btnEliminarLibro.TabIndex = 5;
-        this.btnEliminarLibro.Text = "Eliminar";
-        this.btnEliminarLibro.UseVisualStyleBackColor = true;
-        this.btnEliminarLibro.Click += new System.EventHandler(this.btnEliminarLibro_Click);
+        btnEliminarLibro.BackColor = Color.Red;
+        btnEliminarLibro.ForeColor = Color.Cornsilk;
+        btnEliminarLibro.Location = new Point(192, 234);
+        btnEliminarLibro.Name = "btnEliminarLibro";
+        btnEliminarLibro.Size = new Size(66, 28);
+        btnEliminarLibro.TabIndex = 5;
+        btnEliminarLibro.Text = "Eliminar";
+        btnEliminarLibro.UseVisualStyleBackColor = false;
+        btnEliminarLibro.Click += btnEliminarLibro_Click;
         // 
         // btnModificarLibro
         // 
-        this.btnModificarLibro.Location = new System.Drawing.Point(220, 290);
-        this.btnModificarLibro.Name = "btnModificarLibro";
-        this.btnModificarLibro.Size = new System.Drawing.Size(75, 30);
-        this.btnModificarLibro.TabIndex = 6;
-        this.btnModificarLibro.Text = "Modificar";
-        this.btnModificarLibro.UseVisualStyleBackColor = true;
-        this.btnModificarLibro.Click += new System.EventHandler(this.btnModificarLibro_Click);
+        btnModificarLibro.BackColor = Color.LawnGreen;
+        btnModificarLibro.ForeColor = Color.Black;
+        btnModificarLibro.Location = new Point(192, 272);
+        btnModificarLibro.Name = "btnModificarLibro";
+        btnModificarLibro.Size = new Size(66, 28);
+        btnModificarLibro.TabIndex = 6;
+        btnModificarLibro.Text = "Modificar";
+        btnModificarLibro.UseVisualStyleBackColor = false;
+        btnModificarLibro.Click += btnModificarLibro_Click;
         // 
         // GestionLibro
         // 
-        this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-        this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-        this.ClientSize = new System.Drawing.Size(424, 331);
-        this.Controls.Add(this.btnModificarLibro);
-        this.Controls.Add(this.btnEliminarLibro);
-        this.Controls.Add(this.btnAgregarLibro);
-        this.Controls.Add(this.txtAñoPublicacion);
-        this.Controls.Add(this.txtAutor);
-        this.Controls.Add(this.txtTitulo);
-        this.Controls.Add(this.lstLibros);
-        this.Name = "GestionLibro";
-        this.Text = "Gestión de Libros";
-        this.ResumeLayout(false);
-        this.PerformLayout();
+        AutoScaleDimensions = new SizeF(7F, 15F);
+        AutoScaleMode = AutoScaleMode.Font;
+        ClientSize = new Size(371, 310);
+        Controls.Add(btnModificarLibro);
+        Controls.Add(btnEliminarLibro);
+        Controls.Add(btnAgregarLibro);
+        Controls.Add(txtAñoPublicacion);
+        Controls.Add(txtAutor);
+        Controls.Add(txtTitulo);
+        Controls.Add(lstLibros);
+        Name = "GestionLibro";
+        Text = "Gestión de Libros";
+        ResumeLayout(false);
+        PerformLayout();
     }
 }

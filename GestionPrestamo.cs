@@ -93,5 +93,15 @@ namespace BibliotecaLosInge
             dtpFechaDevolucion.Value = DateTime.Now;
             cboTipoLibro.SelectedIndex = -1;
         }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void FechaEntrega_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

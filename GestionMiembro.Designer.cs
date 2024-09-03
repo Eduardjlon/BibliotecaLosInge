@@ -19,85 +19,93 @@
 
     private void InitializeComponent()
     {
-        this.lstMiembros = new System.Windows.Forms.ListBox();
-        this.txtNombreMiembro = new System.Windows.Forms.TextBox();
-        this.txtNumeroMiembro = new System.Windows.Forms.TextBox();
-        this.btnAgregarMiembro = new System.Windows.Forms.Button();
-        this.btnEliminarMiembro = new System.Windows.Forms.Button();
-        this.btnModificarMiembro = new System.Windows.Forms.Button();
-        this.SuspendLayout();
+        lstMiembros = new ListBox();
+        txtNombreMiembro = new TextBox();
+        txtNumeroMiembro = new TextBox();
+        btnAgregarMiembro = new Button();
+        btnEliminarMiembro = new Button();
+        btnModificarMiembro = new Button();
+        SuspendLayout();
         // 
         // lstMiembros
         // 
-        this.lstMiembros.FormattingEnabled = true;
-        this.lstMiembros.ItemHeight = 16;
-        this.lstMiembros.Location = new System.Drawing.Point(12, 12);
-        this.lstMiembros.Name = "lstMiembros";
-        this.lstMiembros.Size = new System.Drawing.Size(400, 180);
-        this.lstMiembros.TabIndex = 0;
-        this.lstMiembros.SelectedIndexChanged += new System.EventHandler(this.lstMiembros_SelectedIndexChanged);
+        lstMiembros.BackColor = Color.Aqua;
+        lstMiembros.ForeColor = SystemColors.ActiveCaptionText;
+        lstMiembros.FormattingEnabled = true;
+        lstMiembros.ItemHeight = 15;
+        lstMiembros.Location = new Point(10, 11);
+        lstMiembros.Name = "lstMiembros";
+        lstMiembros.Size = new Size(350, 169);
+        lstMiembros.TabIndex = 0;
+        lstMiembros.SelectedIndexChanged += lstMiembros_SelectedIndexChanged;
         // 
         // txtNombreMiembro
         // 
-        this.txtNombreMiembro.Location = new System.Drawing.Point(12, 210);
-        this.txtNombreMiembro.Name = "txtNombreMiembro";
-        this.txtNombreMiembro.Size = new System.Drawing.Size(200, 22);
-        this.txtNombreMiembro.TabIndex = 1;
-        this.txtNombreMiembro.PlaceholderText = "Nombre del miembro";
+        txtNombreMiembro.BackColor = Color.Aquamarine;
+        txtNombreMiembro.Location = new Point(10, 197);
+        txtNombreMiembro.Name = "txtNombreMiembro";
+        txtNombreMiembro.PlaceholderText = "Nombre del miembro";
+        txtNombreMiembro.Size = new Size(176, 23);
+        txtNombreMiembro.TabIndex = 1;
         // 
         // txtNumeroMiembro
         // 
-        this.txtNumeroMiembro.Location = new System.Drawing.Point(12, 240);
-        this.txtNumeroMiembro.Name = "txtNumeroMiembro";
-        this.txtNumeroMiembro.Size = new System.Drawing.Size(200, 22);
-        this.txtNumeroMiembro.TabIndex = 2;
-        this.txtNumeroMiembro.PlaceholderText = "Número de miembro";
-        this.txtNumeroMiembro.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNumeroMiembro_KeyPress);
+        txtNumeroMiembro.BackColor = Color.Aquamarine;
+        txtNumeroMiembro.Location = new Point(10, 225);
+        txtNumeroMiembro.Name = "txtNumeroMiembro";
+        txtNumeroMiembro.PlaceholderText = "Número de miembro";
+        txtNumeroMiembro.Size = new Size(176, 23);
+        txtNumeroMiembro.TabIndex = 2;
+        txtNumeroMiembro.KeyPress += txtNumeroMiembro_KeyPress;
         // 
         // btnAgregarMiembro
         // 
-        this.btnAgregarMiembro.Location = new System.Drawing.Point(220, 210);
-        this.btnAgregarMiembro.Name = "btnAgregarMiembro";
-        this.btnAgregarMiembro.Size = new System.Drawing.Size(75, 30);
-        this.btnAgregarMiembro.TabIndex = 3;
-        this.btnAgregarMiembro.Text = "Agregar";
-        this.btnAgregarMiembro.UseVisualStyleBackColor = true;
-        this.btnAgregarMiembro.Click += new System.EventHandler(this.btnAgregarMiembro_Click);
+        btnAgregarMiembro.BackColor = Color.ForestGreen;
+        btnAgregarMiembro.Location = new Point(192, 197);
+        btnAgregarMiembro.Name = "btnAgregarMiembro";
+        btnAgregarMiembro.Size = new Size(66, 28);
+        btnAgregarMiembro.TabIndex = 3;
+        btnAgregarMiembro.Text = "Agregar";
+        btnAgregarMiembro.UseVisualStyleBackColor = false;
+        btnAgregarMiembro.Click += btnAgregarMiembro_Click;
         // 
         // btnEliminarMiembro
         // 
-        this.btnEliminarMiembro.Location = new System.Drawing.Point(220, 250);
-        this.btnEliminarMiembro.Name = "btnEliminarMiembro";
-        this.btnEliminarMiembro.Size = new System.Drawing.Size(75, 30);
-        this.btnEliminarMiembro.TabIndex = 4;
-        this.btnEliminarMiembro.Text = "Eliminar";
-        this.btnEliminarMiembro.UseVisualStyleBackColor = true;
-        this.btnEliminarMiembro.Click += new System.EventHandler(this.btnEliminarMiembro_Click);
+        btnEliminarMiembro.BackColor = Color.Red;
+        btnEliminarMiembro.ForeColor = Color.Cornsilk;
+        btnEliminarMiembro.Location = new Point(192, 234);
+        btnEliminarMiembro.Name = "btnEliminarMiembro";
+        btnEliminarMiembro.Size = new Size(66, 28);
+        btnEliminarMiembro.TabIndex = 4;
+        btnEliminarMiembro.Text = "Eliminar";
+        btnEliminarMiembro.UseVisualStyleBackColor = false;
+        btnEliminarMiembro.Click += btnEliminarMiembro_Click;
         // 
         // btnModificarMiembro
         // 
-        this.btnModificarMiembro.Location = new System.Drawing.Point(220, 290);
-        this.btnModificarMiembro.Name = "btnModificarMiembro";
-        this.btnModificarMiembro.Size = new System.Drawing.Size(75, 30);
-        this.btnModificarMiembro.TabIndex = 5;
-        this.btnModificarMiembro.Text = "Modificar";
-        this.btnModificarMiembro.UseVisualStyleBackColor = true;
-        this.btnModificarMiembro.Click += new System.EventHandler(this.btnModificarMiembro_Click);
+        btnModificarMiembro.BackColor = Color.Cyan;
+        btnModificarMiembro.Location = new Point(192, 272);
+        btnModificarMiembro.Name = "btnModificarMiembro";
+        btnModificarMiembro.Size = new Size(66, 28);
+        btnModificarMiembro.TabIndex = 5;
+        btnModificarMiembro.Text = "Modificar";
+        btnModificarMiembro.UseVisualStyleBackColor = false;
+        btnModificarMiembro.Click += btnModificarMiembro_Click;
         // 
         // GestionMiembro
         // 
-        this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-        this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-        this.ClientSize = new System.Drawing.Size(424, 331);
-        this.Controls.Add(this.btnModificarMiembro);
-        this.Controls.Add(this.btnEliminarMiembro);
-        this.Controls.Add(this.btnAgregarMiembro);
-        this.Controls.Add(this.txtNumeroMiembro);
-        this.Controls.Add(this.txtNombreMiembro);
-        this.Controls.Add(this.lstMiembros);
-        this.Name = "GestionMiembro";
-        this.Text = "Gestión de Miembros";
-        this.ResumeLayout(false);
-        this.PerformLayout();
+        AutoScaleDimensions = new SizeF(7F, 15F);
+        AutoScaleMode = AutoScaleMode.Font;
+        ClientSize = new Size(589, 310);
+        Controls.Add(btnModificarMiembro);
+        Controls.Add(btnEliminarMiembro);
+        Controls.Add(btnAgregarMiembro);
+        Controls.Add(txtNumeroMiembro);
+        Controls.Add(txtNombreMiembro);
+        Controls.Add(lstMiembros);
+        Name = "GestionMiembro";
+        Text = "Gestión de Miembros";
+        ResumeLayout(false);
+        PerformLayout();
     }
 }

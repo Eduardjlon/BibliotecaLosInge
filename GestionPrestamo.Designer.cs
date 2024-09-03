@@ -24,115 +24,173 @@
 
         private void InitializeComponent()
         {
-            this.lstPrestamos = new System.Windows.Forms.ListBox();
-            this.cboNombreMiembro = new System.Windows.Forms.ComboBox();
-            this.cboTituloLibro = new System.Windows.Forms.ComboBox();
-            this.dtpFechaSalida = new System.Windows.Forms.DateTimePicker();
-            this.dtpFechaDevolucion = new System.Windows.Forms.DateTimePicker();
-            this.cboTipoLibro = new System.Windows.Forms.ComboBox();
-            this.btnAgregarPrestamo = new System.Windows.Forms.Button();
-            this.btnEliminarPrestamo = new System.Windows.Forms.Button();
-            this.btnModificarPrestamo = new System.Windows.Forms.Button();
-            this.SuspendLayout();
+            lstPrestamos = new ListBox();
+            cboNombreMiembro = new ComboBox();
+            cboTituloLibro = new ComboBox();
+            dtpFechaSalida = new DateTimePicker();
+            dtpFechaDevolucion = new DateTimePicker();
+            cboTipoLibro = new ComboBox();
+            btnAgregarPrestamo = new Button();
+            btnEliminarPrestamo = new Button();
+            btnModificarPrestamo = new Button();
+            Miembro = new Label();
+            Librp = new Label();
+            FechaRetiro = new Label();
+            FechaEntrega = new Label();
+            SuspendLayout();
             // 
             // lstPrestamos
             // 
-            this.lstPrestamos.FormattingEnabled = true;
-            this.lstPrestamos.ItemHeight = 16;
-            this.lstPrestamos.Location = new System.Drawing.Point(12, 12);
-            this.lstPrestamos.Name = "lstPrestamos";
-            this.lstPrestamos.Size = new System.Drawing.Size(400, 180);
-            this.lstPrestamos.TabIndex = 0;
+            lstPrestamos.BackColor = Color.Blue;
+            lstPrestamos.ForeColor = Color.WhiteSmoke;
+            lstPrestamos.FormattingEnabled = true;
+            lstPrestamos.ItemHeight = 15;
+            lstPrestamos.Location = new Point(10, 11);
+            lstPrestamos.Name = "lstPrestamos";
+            lstPrestamos.Size = new Size(699, 169);
+            lstPrestamos.TabIndex = 0;
             // 
             // cboNombreMiembro
             // 
-            this.cboNombreMiembro.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboNombreMiembro.FormattingEnabled = true;
-            this.cboNombreMiembro.Location = new System.Drawing.Point(12, 210);
-            this.cboNombreMiembro.Name = "cboNombreMiembro";
-            this.cboNombreMiembro.Size = new System.Drawing.Size(200, 24);
-            this.cboNombreMiembro.TabIndex = 1;
+            cboNombreMiembro.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboNombreMiembro.FormattingEnabled = true;
+            cboNombreMiembro.Location = new Point(269, 201);
+            cboNombreMiembro.Name = "cboNombreMiembro";
+            cboNombreMiembro.Size = new Size(192, 23);
+            cboNombreMiembro.TabIndex = 1;
             // 
             // cboTituloLibro
             // 
-            this.cboTituloLibro.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboTituloLibro.FormattingEnabled = true;
-            this.cboTituloLibro.Location = new System.Drawing.Point(12, 240);
-            this.cboTituloLibro.Name = "cboTituloLibro";
-            this.cboTituloLibro.Size = new System.Drawing.Size(200, 24);
-            this.cboTituloLibro.TabIndex = 2;
+            cboTituloLibro.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboTituloLibro.FormattingEnabled = true;
+            cboTituloLibro.Location = new Point(269, 230);
+            cboTituloLibro.Name = "cboTituloLibro";
+            cboTituloLibro.Size = new Size(192, 23);
+            cboTituloLibro.TabIndex = 2;
             // 
             // dtpFechaSalida
             // 
-            this.dtpFechaSalida.Location = new System.Drawing.Point(12, 270);
-            this.dtpFechaSalida.Name = "dtpFechaSalida";
-            this.dtpFechaSalida.Size = new System.Drawing.Size(200, 22);
-            this.dtpFechaSalida.TabIndex = 3;
+            dtpFechaSalida.Location = new Point(12, 262);
+            dtpFechaSalida.Name = "dtpFechaSalida";
+            dtpFechaSalida.Size = new Size(251, 23);
+            dtpFechaSalida.TabIndex = 3;
             // 
             // dtpFechaDevolucion
             // 
-            this.dtpFechaDevolucion.Location = new System.Drawing.Point(12, 300);
-            this.dtpFechaDevolucion.Name = "dtpFechaDevolucion";
-            this.dtpFechaDevolucion.Size = new System.Drawing.Size(200, 22);
-            this.dtpFechaDevolucion.TabIndex = 4;
+            dtpFechaDevolucion.Location = new Point(467, 262);
+            dtpFechaDevolucion.Name = "dtpFechaDevolucion";
+            dtpFechaDevolucion.Size = new Size(242, 23);
+            dtpFechaDevolucion.TabIndex = 4;
             // 
             // cboTipoLibro
             // 
-            this.cboTipoLibro.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboTipoLibro.FormattingEnabled = true;
-            this.cboTipoLibro.Location = new System.Drawing.Point(12, 330);
-            this.cboTipoLibro.Name = "cboTipoLibro";
-            this.cboTipoLibro.Size = new System.Drawing.Size(200, 24);
-            this.cboTipoLibro.TabIndex = 5;
+            cboTipoLibro.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboTipoLibro.FormattingEnabled = true;
+            cboTipoLibro.Location = new Point(269, 262);
+            cboTipoLibro.Name = "cboTipoLibro";
+            cboTipoLibro.Size = new Size(192, 23);
+            cboTipoLibro.TabIndex = 5;
             // 
             // btnAgregarPrestamo
             // 
-            this.btnAgregarPrestamo.Location = new System.Drawing.Point(220, 210);
-            this.btnAgregarPrestamo.Name = "btnAgregarPrestamo";
-            this.btnAgregarPrestamo.Size = new System.Drawing.Size(75, 30);
-            this.btnAgregarPrestamo.TabIndex = 6;
-            this.btnAgregarPrestamo.Text = "Agregar";
-            this.btnAgregarPrestamo.UseVisualStyleBackColor = true;
-            this.btnAgregarPrestamo.Click += new System.EventHandler(this.btnAgregarPrestamo_Click);
+            btnAgregarPrestamo.BackColor = Color.Lime;
+            btnAgregarPrestamo.Location = new Point(332, 291);
+            btnAgregarPrestamo.Name = "btnAgregarPrestamo";
+            btnAgregarPrestamo.Size = new Size(66, 28);
+            btnAgregarPrestamo.TabIndex = 6;
+            btnAgregarPrestamo.Text = "Agregar";
+            btnAgregarPrestamo.UseVisualStyleBackColor = false;
+            btnAgregarPrestamo.Click += btnAgregarPrestamo_Click;
             // 
             // btnEliminarPrestamo
             // 
-            this.btnEliminarPrestamo.Location = new System.Drawing.Point(220, 250);
-            this.btnEliminarPrestamo.Name = "btnEliminarPrestamo";
-            this.btnEliminarPrestamo.Size = new System.Drawing.Size(75, 30);
-            this.btnEliminarPrestamo.TabIndex = 7;
-            this.btnEliminarPrestamo.Text = "Eliminar";
-            this.btnEliminarPrestamo.UseVisualStyleBackColor = true;
-            this.btnEliminarPrestamo.Click += new System.EventHandler(this.btnEliminarPrestamo_Click);
+            btnEliminarPrestamo.BackColor = Color.Red;
+            btnEliminarPrestamo.ForeColor = Color.White;
+            btnEliminarPrestamo.Location = new Point(260, 291);
+            btnEliminarPrestamo.Name = "btnEliminarPrestamo";
+            btnEliminarPrestamo.Size = new Size(66, 28);
+            btnEliminarPrestamo.TabIndex = 7;
+            btnEliminarPrestamo.Text = "Eliminar";
+            btnEliminarPrestamo.UseVisualStyleBackColor = false;
+            btnEliminarPrestamo.Click += btnEliminarPrestamo_Click;
             // 
             // btnModificarPrestamo
             // 
-            this.btnModificarPrestamo.Location = new System.Drawing.Point(220, 290);
-            this.btnModificarPrestamo.Name = "btnModificarPrestamo";
-            this.btnModificarPrestamo.Size = new System.Drawing.Size(75, 30);
-            this.btnModificarPrestamo.TabIndex = 8;
-            this.btnModificarPrestamo.Text = "Modificar";
-            this.btnModificarPrestamo.UseVisualStyleBackColor = true;
-            this.btnModificarPrestamo.Click += new System.EventHandler(this.btnModificarPrestamo_Click);
+            btnModificarPrestamo.BackColor = Color.FromArgb(0, 0, 192);
+            btnModificarPrestamo.ForeColor = SystemColors.ButtonFace;
+            btnModificarPrestamo.Location = new Point(404, 291);
+            btnModificarPrestamo.Name = "btnModificarPrestamo";
+            btnModificarPrestamo.Size = new Size(66, 28);
+            btnModificarPrestamo.TabIndex = 8;
+            btnModificarPrestamo.Text = "Modificar";
+            btnModificarPrestamo.UseVisualStyleBackColor = false;
+            btnModificarPrestamo.Click += btnModificarPrestamo_Click;
+            // 
+            // Miembro
+            // 
+            Miembro.AutoSize = true;
+            Miembro.Location = new Point(192, 204);
+            Miembro.Name = "Miembro";
+            Miembro.Size = new Size(56, 15);
+            Miembro.TabIndex = 9;
+            Miembro.Text = "Miembro";
+            // 
+            // Librp
+            // 
+            Librp.AutoSize = true;
+            Librp.Location = new Point(203, 233);
+            Librp.Name = "Librp";
+            Librp.Size = new Size(34, 15);
+            Librp.TabIndex = 10;
+            Librp.Text = "Libro";
+            // 
+            // FechaRetiro
+            // 
+            FechaRetiro.AutoSize = true;
+            FechaRetiro.Location = new Point(62, 288);
+            FechaRetiro.Name = "FechaRetiro";
+            FechaRetiro.Size = new Size(133, 15);
+            FechaRetiro.TabIndex = 11;
+            FechaRetiro.Text = "Fecha Retirada del Libro";
+            FechaRetiro.Click += label1_Click;
+            // 
+            // FechaEntrega
+            // 
+            FechaEntrega.AutoSize = true;
+            FechaEntrega.Location = new Point(532, 291);
+            FechaEntrega.Name = "FechaEntrega";
+            FechaEntrega.Size = new Size(130, 15);
+            FechaEntrega.TabIndex = 12;
+            FechaEntrega.Text = "Fecha Entrega del Libro";
+            FechaEntrega.Click += FechaEntrega_Click;
             // 
             // GestionPrestamo
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(424, 361);
-            this.Controls.Add(this.btnModificarPrestamo);
-            this.Controls.Add(this.btnEliminarPrestamo);
-            this.Controls.Add(this.btnAgregarPrestamo);
-            this.Controls.Add(this.cboTipoLibro);
-            this.Controls.Add(this.dtpFechaDevolucion);
-            this.Controls.Add(this.dtpFechaSalida);
-            this.Controls.Add(this.cboTituloLibro);
-            this.Controls.Add(this.cboNombreMiembro);
-            this.Controls.Add(this.lstPrestamos);
-            this.Name = "GestionPrestamo";
-            this.Text = "Gestión de Préstamos";
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(721, 338);
+            Controls.Add(FechaEntrega);
+            Controls.Add(FechaRetiro);
+            Controls.Add(Librp);
+            Controls.Add(Miembro);
+            Controls.Add(btnModificarPrestamo);
+            Controls.Add(btnEliminarPrestamo);
+            Controls.Add(btnAgregarPrestamo);
+            Controls.Add(cboTipoLibro);
+            Controls.Add(dtpFechaDevolucion);
+            Controls.Add(dtpFechaSalida);
+            Controls.Add(cboTituloLibro);
+            Controls.Add(cboNombreMiembro);
+            Controls.Add(lstPrestamos);
+            Name = "GestionPrestamo";
+            Text = "Gestión de Préstamos";
+            ResumeLayout(false);
+            PerformLayout();
         }
+
+        private Label Miembro;
+        private Label Librp;
+        private Label FechaRetiro;
+        private Label FechaEntrega;
     }
 }
