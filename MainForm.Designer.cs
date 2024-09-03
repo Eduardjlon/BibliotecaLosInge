@@ -50,12 +50,13 @@
             // 
             // btnGestionPrestamo
             // 
+            btnGestionPrestamo.BackColor = Color.Teal;
             btnGestionPrestamo.Location = new Point(50, 150);
             btnGestionPrestamo.Name = "btnGestionPrestamo";
             btnGestionPrestamo.Size = new Size(150, 30);
             btnGestionPrestamo.TabIndex = 2;
             btnGestionPrestamo.Text = "Gestionar Préstamos";
-            btnGestionPrestamo.UseVisualStyleBackColor = true;
+            btnGestionPrestamo.UseVisualStyleBackColor = false;
             btnGestionPrestamo.Click += btnGestionPrestamo_Click;
             // 
             // MainForm
