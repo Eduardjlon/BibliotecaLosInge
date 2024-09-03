@@ -20,7 +20,7 @@ public partial class GestionLibro : Form
             lstLibros.Items.Add(libro);
         }
     }
-
+    //quedo
     private void btnAgregarLibro_Click(object sender, EventArgs e)
     {
         var titulo = txtTitulo.Text;
