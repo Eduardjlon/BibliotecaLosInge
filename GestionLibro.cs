@@ -15,19 +15,19 @@ public partial class GestionLibro : Form
     private void CargarLibros()
     {
         lstLibros.Items.Clear();
-        foreach (var libro in DataManager.Instance.ObtenerLibros())
+        foreach (Libro libro in DataManager.Instance.ObtenerLibros())
         {
             lstLibros.Items.Add(libro);
         }
     }
-    
+
     private void btnAgregarLibro_Click(object sender, EventArgs e)
     {
-        var titulo = txtTitulo.Text;
-        var autor = txtAutor.Text;
+        string titulo = txtTitulo.Text;
+        string autor = txtAutor.Text;
         if (int.TryParse(txtAñoPublicacion.Text, out int añoPublicacion))
         {
-            var libro = new Libro(titulo, autor, añoPublicacion);
+            Libro libro = new Libro(titulo, autor, añoPublicacion);
             DataManager.Instance.AgregarLibro(libro);
             lstLibros.Items.Add(libro);
             LimpiarCampos();
@@ -40,7 +40,7 @@ public partial class GestionLibro : Form
 
     private void btnEliminarLibro_Click(object sender, EventArgs e)
     {
-        var libroSeleccionado = lstLibros.SelectedItem as Libro;
+        Libro libroSeleccionado = lstLibros.SelectedItem as Libro;
         if (libroSeleccionado != null)
         {
             DataManager.Instance.EliminarLibro(libroSeleccionado);
@@ -57,8 +57,8 @@ public partial class GestionLibro : Form
     {
         if (libroSeleccionado != null)
         {
-            var titulo = txtTitulo.Text;
-            var autor = txtAutor.Text;
+            string titulo = txtTitulo.Text;
+            string autor = txtAutor.Text;
             if (int.TryParse(txtAñoPublicacion.Text, out int añoPublicacion))
             {
                 libroSeleccionado.Titulo = titulo;

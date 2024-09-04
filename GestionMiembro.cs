@@ -15,7 +15,7 @@ public partial class GestionMiembro : Form
     private void CargarMiembros()
     {
         lstMiembros.Items.Clear();
-        foreach (var miembro in DataManager.Instance.ObtenerMiembros())
+        foreach (Miembro miembro in DataManager.Instance.ObtenerMiembros())
         {
             lstMiembros.Items.Add(miembro);
         }
@@ -23,11 +23,11 @@ public partial class GestionMiembro : Form
 
     private void btnAgregarMiembro_Click(object sender, EventArgs e)
     {
-        var nombre = txtNombreMiembro.Text;
-        var numeroMiembro = txtNumeroMiembro.Text;
+        string nombre = txtNombreMiembro.Text;
+        string numeroMiembro = txtNumeroMiembro.Text;
         if (!string.IsNullOrEmpty(nombre) && !string.IsNullOrEmpty(numeroMiembro))
         {
-            var miembro = new Miembro(nombre, numeroMiembro);
+            Miembro miembro = new Miembro(nombre, numeroMiembro);
             DataManager.Instance.AgregarMiembro(miembro);
             lstMiembros.Items.Add(miembro);
             LimpiarCampos();
@@ -40,7 +40,7 @@ public partial class GestionMiembro : Form
 
     private void btnEliminarMiembro_Click(object sender, EventArgs e)
     {
-        var miembroSeleccionado = lstMiembros.SelectedItem as Miembro;
+        Miembro miembroSeleccionado = lstMiembros.SelectedItem as Miembro;
         if (miembroSeleccionado != null)
         {
             DataManager.Instance.EliminarMiembro(miembroSeleccionado);
@@ -57,8 +57,8 @@ public partial class GestionMiembro : Form
     {
         if (miembroSeleccionado != null)
         {
-            var nombre = txtNombreMiembro.Text;
-            var numeroMiembro = txtNumeroMiembro.Text;
+            string nombre = txtNombreMiembro.Text;
+            string numeroMiembro = txtNumeroMiembro.Text;
             if (!string.IsNullOrEmpty(nombre) && !string.IsNullOrEmpty(numeroMiembro))
             {
                 miembroSeleccionado.Nombre = nombre;

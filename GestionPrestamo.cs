@@ -17,16 +17,16 @@ namespace BibliotecaLosInge
 
         private void btnAgregarPrestamo_Click(object sender, EventArgs e)
         {
-            var libroSeleccionado = cboTituloLibro.SelectedItem as Libro;
-            var miembroSeleccionado = cboNombreMiembro.SelectedItem as Miembro;
-            var fechaSalida = dtpFechaSalida.Value;
-            var fechaDevolucion = dtpFechaDevolucion.Value;
-            var tipoLibro = cboTipoLibro.SelectedItem?.ToString();
+            Libro libroSeleccionado = cboTituloLibro.SelectedItem as Libro;
+            Miembro miembroSeleccionado = cboNombreMiembro.SelectedItem as Miembro;
+            DateTime fechaSalida = dtpFechaSalida.Value;
+            DateTime fechaDevolucion = dtpFechaDevolucion.Value;
+            string tipoLibro = cboTipoLibro.SelectedItem?.ToString();
 
             if (libroSeleccionado != null && miembroSeleccionado != null && !string.IsNullOrEmpty(tipoLibro))
             {
-                var esElectronico = tipoLibro == "Libro electrónico";
-                var prestamo = new Prestamo(miembroSeleccionado, libroSeleccionado, fechaSalida, fechaDevolucion, esElectronico);
+                bool esElectronico = tipoLibro == "Libro electrónico";
+                Prestamo prestamo = new Prestamo(miembroSeleccionado, libroSeleccionado, fechaSalida, fechaDevolucion, esElectronico);
                 DataManager.Instance.AgregarPrestamo(prestamo);
                 lstPrestamos.Items.Add(prestamo);
             }
@@ -40,7 +40,7 @@ namespace BibliotecaLosInge
         {
             if (lstPrestamos.SelectedItem != null)
             {
-                var prestamoSeleccionado = lstPrestamos.SelectedItem as Prestamo;
+                Prestamo prestamoSeleccionado = lstPrestamos.SelectedItem as Prestamo;
                 DataManager.Instance.EliminarPrestamo(prestamoSeleccionado);
                 lstPrestamos.Items.Remove(prestamoSeleccionado);
                 ClearFields();
@@ -96,12 +96,12 @@ namespace BibliotecaLosInge
 
         private void label1_Click(object sender, EventArgs e)
         {
-
+            // Método vacío
         }
 
         private void FechaEntrega_Click(object sender, EventArgs e)
         {
-
+            // Método vacío
         }
     }
 }
