@@ -1,10 +1,15 @@
 ﻿public class LibroFisico : Libro
 {
-    public string Ubicacion { get; set; }
+    public int Cantidad { get; set; }
 
-    public LibroFisico(string titulo, string autor, int añoPublicacion, string ubicacion)
-        : base(titulo, autor, añoPublicacion)
+    public LibroFisico(string titulo, string autor, int añoPublicacion, int cantidad = 1)
+        : base(titulo, autor, añoPublicacion, "Físico") // Pasa "Físico" como tipo
     {
-        Ubicacion = ubicacion;
+        Cantidad = cantidad;
+    }
+
+    public override string ToString()
+    {
+        return $"{Titulo} ({Cantidad})";
     }
 }

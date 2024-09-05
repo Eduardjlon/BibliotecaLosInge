@@ -10,6 +10,7 @@ public partial class GestionLibro : Form
     {
         InitializeComponent();
         CargarLibros();
+        CargarTiposDeLibro();
     }
 
     private void CargarLibros()
@@ -17,20 +18,98 @@ public partial class GestionLibro : Form
         lstLibros.Items.Clear();
         foreach (Libro libro in DataManager.Instance.ObtenerLibros())
         {
-            lstLibros.Items.Add(libro);
+            MostrarLibroEnLista(libro);
         }
+    }
+
+    private void MostrarLibroEnLista(Libro libro)
+    {
+        if (libro is LibroFisico libroFisico)
+        {
+            // Mostrar título, autor, año y cantidad para libros físicos
+            lstLibros.Items.Add($"{libroFisico.Titulo} - {libroFisico.Autor} ({libroFisico.AñoPublicacion}) - Cantidad: {libroFisico.Cantidad}");
+        }
+        else if (libro is LibroElectronico libroElectronico)
+        {
+            // Mostrar título, autor, año y formato para libros electrónicos
+            lstLibros.Items.Add($"{libroElectronico.Titulo} - {libroElectronico.Autor} ({libroElectronico.AñoPublicacion}) - Formato: {libroElectronico.Formato}");
+        }
+    }
+
+    private void CargarTiposDeLibro()
+    {
+        cboTipoLibro.Items.Clear();
+        cboTipoLibro.Items.Add("Físico");
+        cboTipoLibro.Items.Add("Electrónico");
+        cboTipoLibro.SelectedIndex = 0; // Selecciona "Físico" por defecto
     }
 
     private void btnAgregarLibro_Click(object sender, EventArgs e)
     {
         string titulo = txtTitulo.Text;
         string autor = txtAutor.Text;
+        string tipoLibro = cboTipoLibro.SelectedItem.ToString();
+
         if (int.TryParse(txtAñoPublicacion.Text, out int añoPublicacion))
         {
-            Libro libro = new Libro(titulo, autor, añoPublicacion);
-            DataManager.Instance.AgregarLibro(libro);
-            lstLibros.Items.Add(libro);
-            LimpiarCampos();
+            bool libroExistente = false;
+
+            if (tipoLibro == "Físico")
+            {
+                // Verificar si el libro físico ya existe
+                foreach (Libro libro in DataManager.Instance.ObtenerLibros())
+                {
+                    if (libro is LibroFisico libroFisico &&
+                        libroFisico.Titulo == titulo &&
+                        libroFisico.Autor == autor &&
+                        libroFisico.AñoPublicacion == añoPublicacion)
+                    {
+                        // Incrementar la cantidad y mostrar mensaje
+                        libroFisico.Cantidad++;
+                        libroExistente = true;
+                        MessageBox.Show($"El libro ya existe. Ahora hay {libroFisico.Cantidad}.");
+                        ActualizarListaLibros(); // Actualiza la lista con la nueva cantidad
+                        LimpiarCampos(); // Limpia los campos
+                        break;
+                    }
+                }
+
+                if (!libroExistente)
+                {
+                    // Crear un nuevo libro físico y agregarlo
+                    LibroFisico nuevoLibroFisico = new LibroFisico(titulo, autor, añoPublicacion, 1);
+                    DataManager.Instance.AgregarLibro(nuevoLibroFisico);
+                    lstLibros.Items.Add($"{nuevoLibroFisico.Titulo} - {nuevoLibroFisico.Autor} ({nuevoLibroFisico.AñoPublicacion}) - Cantidad: {nuevoLibroFisico.Cantidad}");
+                    LimpiarCampos();
+                }
+            }
+            else if (tipoLibro == "Electrónico")
+            {
+                // Verificar si el libro electrónico ya existe
+                foreach (Libro libro in DataManager.Instance.ObtenerLibros())
+                {
+                    if (libro is LibroElectronico libroElectronico &&
+                        libroElectronico.Titulo == titulo &&
+                        libroElectronico.Autor == autor &&
+                        libroElectronico.AñoPublicacion == añoPublicacion)
+                    {
+                        // Mostrar mensaje para libros electrónicos ya existentes
+                        libroExistente = true;
+                        MessageBox.Show("El libro electrónico ya existe.");
+                        LimpiarCampos(); // Limpia los campos
+                        break;
+                    }
+                }
+
+                if (!libroExistente)
+                {
+                    // Crear un nuevo libro electrónico y agregarlo
+                    LibroElectronico nuevoLibroElectronico = new LibroElectronico(titulo, autor, añoPublicacion, "PDF"); // Proporciona un formato por defecto
+                    DataManager.Instance.AgregarLibro(nuevoLibroElectronico);
+                    lstLibros.Items.Add($"{nuevoLibroElectronico.Titulo} - {nuevoLibroElectronico.Autor} ({nuevoLibroElectronico.AñoPublicacion}) - Formato: {nuevoLibroElectronico.Formato}");
+                    LimpiarCampos();
+                }
+            }
         }
         else
         {
@@ -40,12 +119,30 @@ public partial class GestionLibro : Form
 
     private void btnEliminarLibro_Click(object sender, EventArgs e)
     {
-        Libro libroSeleccionado = lstLibros.SelectedItem as Libro;
+        libroSeleccionado = lstLibros.SelectedItem as Libro;
         if (libroSeleccionado != null)
         {
-            DataManager.Instance.EliminarLibro(libroSeleccionado);
-            lstLibros.Items.Remove(libroSeleccionado);
-            LimpiarCampos();
+            if (libroSeleccionado is LibroFisico libroFisico)
+            {
+                if (libroFisico.Cantidad > 1)
+                {
+                    libroFisico.Cantidad--;
+                    DataManager.Instance.ActualizarListaLibros();
+                    MessageBox.Show($"La cantidad de '{libroFisico.Titulo}' ha sido reducida a {libroFisico.Cantidad}.");
+                }
+                else
+                {
+                    DataManager.Instance.EliminarLibro(libroSeleccionado);
+                    lstLibros.Items.Remove(libroSeleccionado);
+                    LimpiarCampos();
+                }
+            }
+            else
+            {
+                DataManager.Instance.EliminarLibro(libroSeleccionado);
+                lstLibros.Items.Remove(libroSeleccionado);
+                LimpiarCampos();
+            }
         }
         else
         {
@@ -59,11 +156,14 @@ public partial class GestionLibro : Form
         {
             string titulo = txtTitulo.Text;
             string autor = txtAutor.Text;
+            string tipoLibro = cboTipoLibro.SelectedItem.ToString();
+
             if (int.TryParse(txtAñoPublicacion.Text, out int añoPublicacion))
             {
                 libroSeleccionado.Titulo = titulo;
                 libroSeleccionado.Autor = autor;
                 libroSeleccionado.AñoPublicacion = añoPublicacion;
+                // Puedes agregar lógica adicional para el tipo de libro aquí si es necesario
 
                 // Actualizar el libro en la lista
                 int index = lstLibros.SelectedIndex;
@@ -86,6 +186,7 @@ public partial class GestionLibro : Form
         txtTitulo.Clear();
         txtAutor.Clear();
         txtAñoPublicacion.Clear();
+        cboTipoLibro.SelectedIndex = 0; // Reinicia la selección a "Físico"
         libroSeleccionado = null;
     }
 
@@ -97,6 +198,16 @@ public partial class GestionLibro : Form
             txtTitulo.Text = libroSeleccionado.Titulo;
             txtAutor.Text = libroSeleccionado.Autor;
             txtAñoPublicacion.Text = libroSeleccionado.AñoPublicacion.ToString();
+            cboTipoLibro.SelectedItem = libroSeleccionado is LibroFisico ? "Físico" : "Electrónico";
+        }
+    }
+
+    private void ActualizarListaLibros()
+    {
+        lstLibros.Items.Clear();
+        foreach (Libro libro in DataManager.Instance.ObtenerLibros())
+        {
+            MostrarLibroEnLista(libro);
         }
     }
 }

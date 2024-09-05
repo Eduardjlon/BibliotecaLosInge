@@ -5,6 +5,7 @@
     private System.Windows.Forms.TextBox txtTitulo;
     private System.Windows.Forms.TextBox txtAutor;
     private System.Windows.Forms.TextBox txtAñoPublicacion;
+    private System.Windows.Forms.ComboBox cboTipoLibro; // Añadir esta línea para definir el ComboBox
     private System.Windows.Forms.Button btnAgregarLibro;
     private System.Windows.Forms.Button btnEliminarLibro;
     private System.Windows.Forms.Button btnModificarLibro;
@@ -24,6 +25,7 @@
         txtTitulo = new TextBox();
         txtAutor = new TextBox();
         txtAñoPublicacion = new TextBox();
+        cboTipoLibro = new ComboBox(); // Añadir aquí la inicialización del ComboBox
         btnAgregarLibro = new Button();
         btnEliminarLibro = new Button();
         btnModificarLibro = new Button();
@@ -68,13 +70,24 @@
         txtAñoPublicacion.Size = new Size(176, 23);
         txtAñoPublicacion.TabIndex = 3;
         // 
+        // cboTipoLibro
+        // 
+        cboTipoLibro.BackColor = Color.YellowGreen;
+        cboTipoLibro.DropDownStyle = ComboBoxStyle.DropDownList;
+        cboTipoLibro.FormattingEnabled = true;
+        cboTipoLibro.Items.AddRange(new object[] { "Físico", "Electrónico" });
+        cboTipoLibro.Location = new Point(10, 283);
+        cboTipoLibro.Name = "cboTipoLibro";
+        cboTipoLibro.Size = new Size(176, 23);
+        cboTipoLibro.TabIndex = 4;
+        // 
         // btnAgregarLibro
         // 
         btnAgregarLibro.BackColor = Color.ForestGreen;
         btnAgregarLibro.Location = new Point(192, 197);
         btnAgregarLibro.Name = "btnAgregarLibro";
         btnAgregarLibro.Size = new Size(66, 28);
-        btnAgregarLibro.TabIndex = 4;
+        btnAgregarLibro.TabIndex = 5;
         btnAgregarLibro.Text = "Agregar";
         btnAgregarLibro.UseVisualStyleBackColor = false;
         btnAgregarLibro.Click += btnAgregarLibro_Click;
@@ -86,7 +99,7 @@
         btnEliminarLibro.Location = new Point(192, 234);
         btnEliminarLibro.Name = "btnEliminarLibro";
         btnEliminarLibro.Size = new Size(66, 28);
-        btnEliminarLibro.TabIndex = 5;
+        btnEliminarLibro.TabIndex = 6;
         btnEliminarLibro.Text = "Eliminar";
         btnEliminarLibro.UseVisualStyleBackColor = false;
         btnEliminarLibro.Click += btnEliminarLibro_Click;
@@ -98,7 +111,7 @@
         btnModificarLibro.Location = new Point(192, 272);
         btnModificarLibro.Name = "btnModificarLibro";
         btnModificarLibro.Size = new Size(66, 28);
-        btnModificarLibro.TabIndex = 6;
+        btnModificarLibro.TabIndex = 7;
         btnModificarLibro.Text = "Modificar";
         btnModificarLibro.UseVisualStyleBackColor = false;
         btnModificarLibro.Click += btnModificarLibro_Click;
@@ -108,6 +121,7 @@
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(371, 310);
+        Controls.Add(cboTipoLibro); // Añadir el ComboBox al formulario
         Controls.Add(btnModificarLibro);
         Controls.Add(btnEliminarLibro);
         Controls.Add(btnAgregarLibro);

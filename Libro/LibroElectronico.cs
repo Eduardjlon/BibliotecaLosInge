@@ -1,10 +1,10 @@
 ﻿public class LibroElectronico : Libro
 {
-    public string URLDescarga { get; set; }
-
-    public LibroElectronico(string titulo, string autor, int añoPublicacion, string urlDescarga)
-        : base(titulo, autor, añoPublicacion)
+    public LibroElectronico(string titulo, string autor, int añoPublicacion, string formato)
+        : base(titulo, autor, añoPublicacion, "Electrónico") // Llama al constructor base de Libro
     {
-        URLDescarga = urlDescarga;
+        Formato = formato; // Inicializa la propiedad adicional Formato
     }
+
+    public string Formato { get; set; }
 }
