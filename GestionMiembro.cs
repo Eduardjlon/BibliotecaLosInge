@@ -10,6 +10,11 @@ public partial class GestionMiembro : Form
     {
         InitializeComponent();
         CargarMiembros();
+
+        // Configuración de txtNumeroMiembro
+        txtNumeroMiembro.MaxLength = 4; // Limitar a 4 caracteres
+        txtNumeroMiembro.KeyPress += TxtNumeroMiembro_KeyPress; // Solo permitir números
+        txtNumeroMiembro.TextChanged += TxtNumeroMiembro_TextChanged; // Verificar longitud
     }
 
     private void CargarMiembros()
@@ -97,12 +102,22 @@ public partial class GestionMiembro : Form
         }
     }
 
-    private void txtNumeroMiembro_KeyPress(object sender, KeyPressEventArgs e)
+    private void TxtNumeroMiembro_KeyPress(object sender, KeyPressEventArgs e)
     {
         // Permite solo números y la tecla de retroceso
         if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
         {
             e.Handled = true; // Cancela el evento de tecla
+        }
+    }
+
+    private void TxtNumeroMiembro_TextChanged(object sender, EventArgs e)
+    {
+        // Verifica si el texto tiene más de 4 caracteres y recorta el texto si es necesario
+        if (txtNumeroMiembro.Text.Length > 4)
+        {
+            txtNumeroMiembro.Text = txtNumeroMiembro.Text.Substring(0, 4);
+            txtNumeroMiembro.SelectionStart = txtNumeroMiembro.Text.Length; // Mueve el cursor al final
         }
     }
 }
