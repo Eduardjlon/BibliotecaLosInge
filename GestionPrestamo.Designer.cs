@@ -41,6 +41,7 @@
             ListFisico = new ListBox();
             ListElectronico = new ListBox();
             cboTipoLibro = new ComboBox();
+            label1 = new Label();
             SuspendLayout();
             // 
             // lstPrestamos
@@ -58,7 +59,7 @@
             // 
             cboNombreMiembro.DropDownStyle = ComboBoxStyle.DropDownList;
             cboNombreMiembro.FormattingEnabled = true;
-            cboNombreMiembro.Location = new Point(74, 186);
+            cboNombreMiembro.Location = new Point(89, 186);
             cboNombreMiembro.Name = "cboNombreMiembro";
             cboNombreMiembro.Size = new Size(192, 23);
             cboNombreMiembro.TabIndex = 1;
@@ -148,9 +149,9 @@
             ListFisico.ForeColor = Color.Black;
             ListFisico.FormattingEnabled = true;
             ListFisico.ItemHeight = 15;
-            ListFisico.Location = new Point(10, 263);
+            ListFisico.Location = new Point(15, 263);
             ListFisico.Name = "ListFisico";
-            ListFisico.Size = new Size(240, 94);
+            ListFisico.Size = new Size(235, 94);
             ListFisico.TabIndex = 13;
             // 
             // ListElectronico
@@ -159,26 +160,36 @@
             ListElectronico.ForeColor = Color.Black;
             ListElectronico.FormattingEnabled = true;
             ListElectronico.ItemHeight = 15;
-            ListElectronico.Location = new Point(256, 263);
+            ListElectronico.Location = new Point(261, 263);
             ListElectronico.Name = "ListElectronico";
-            ListElectronico.Size = new Size(240, 94);
+            ListElectronico.Size = new Size(235, 94);
             ListElectronico.TabIndex = 14;
             // 
             // cboTipoLibro
             // 
             cboTipoLibro.DropDownStyle = ComboBoxStyle.DropDownList;
             cboTipoLibro.FormattingEnabled = true;
-            cboTipoLibro.Location = new Point(74, 234);
+            cboTipoLibro.Location = new Point(89, 215);
             cboTipoLibro.Name = "cboTipoLibro";
             cboTipoLibro.Size = new Size(192, 23);
             cboTipoLibro.TabIndex = 15;
             cboTipoLibro.SelectedIndexChanged += cboTipoLibro_SelectedIndexChanged;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(10, 223);
+            label1.Name = "label1";
+            label1.Size = new Size(60, 15);
+            label1.TabIndex = 16;
+            label1.Text = "Tipo Libro";
             // 
             // GestionPrestamo
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(721, 369);
+            Controls.Add(label1);
             Controls.Add(cboTipoLibro);
             Controls.Add(ListElectronico);
             Controls.Add(ListFisico);
@@ -212,5 +223,7 @@
         {
             throw new NotImplementedException();
         }
+
+        private Label label1;
     }
 }
