@@ -1,5 +1,4 @@
-﻿
-namespace BibliotecaLosInge
+﻿namespace BibliotecaLosInge
 {
     partial class GestionPrestamo
     {
@@ -16,6 +15,7 @@ namespace BibliotecaLosInge
         private System.Windows.Forms.Label FechaEntrega;
         private System.Windows.Forms.ListBox ListFisico;
         private System.Windows.Forms.ListBox ListElectronico;
+        private System.Windows.Forms.ComboBox cboTipoLibro;
 
         protected override void Dispose(bool disposing)
         {
@@ -155,8 +155,8 @@ namespace BibliotecaLosInge
             // 
             // ListElectronico
             // 
-            ListElectronico.BackColor = Color.Blue;
-            ListElectronico.ForeColor = Color.WhiteSmoke;
+            ListElectronico.BackColor = Color.Yellow;
+            ListElectronico.ForeColor = Color.Black;
             ListElectronico.FormattingEnabled = true;
             ListElectronico.ItemHeight = 15;
             ListElectronico.Location = new Point(256, 263);
@@ -172,6 +172,7 @@ namespace BibliotecaLosInge
             cboTipoLibro.Name = "cboTipoLibro";
             cboTipoLibro.Size = new Size(192, 23);
             cboTipoLibro.TabIndex = 15;
+            cboTipoLibro.SelectedIndexChanged += cboTipoLibro_SelectedIndexChanged;
             // 
             // GestionPrestamo
             // 
@@ -211,7 +212,5 @@ namespace BibliotecaLosInge
         {
             throw new NotImplementedException();
         }
-
-        private ComboBox cboTipoLibro;
     }
 }

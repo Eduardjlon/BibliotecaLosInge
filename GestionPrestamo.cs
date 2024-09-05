@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace BibliotecaLosInge
@@ -6,6 +7,7 @@ namespace BibliotecaLosInge
     public partial class GestionPrestamo : Form
     {
         private DataManager _dataManager;
+        private Miembro miembroSeleccionado;
 
         public GestionPrestamo()
         {
@@ -13,24 +15,14 @@ namespace BibliotecaLosInge
             _dataManager = DataManager.Instance; // Singleton
             CargarMiembros();
             CargarLibros();
-            InicializarControles();
-        }
-
-        private void InicializarControles()
-        {
-            // Agregar opciones al comboBoxTipoLibro
-            cboTipoLibro.Items.Add("Seleccione el tipo de libro");
-            cboTipoLibro.Items.Add("Libro Físico");
-            cboTipoLibro.Items.Add("Libro Electrónico");
-            cboTipoLibro.SelectedIndex = 0; // Seleccionar la opción por defecto
-            ListFisico.Enabled = false;
-            ListElectronico.Enabled = false;
+            InicializarEstados();
+            CargarTiposDeLibro();
         }
 
         private void CargarMiembros()
         {
             cboNombreMiembro.Items.Clear();
-            foreach (Miembro miembro in _dataManager.ObtenerMiembros())
+            foreach (var miembro in _dataManager.ObtenerMiembros())
             {
                 cboNombreMiembro.Items.Add(miembro);
             }
@@ -41,7 +33,7 @@ namespace BibliotecaLosInge
             ListFisico.Items.Clear();
             ListElectronico.Items.Clear();
 
-            foreach (Libro libro in _dataManager.ObtenerLibros())
+            foreach (var libro in _dataManager.ObtenerLibros())
             {
                 if (libro is LibroFisico)
                 {
@@ -54,28 +46,42 @@ namespace BibliotecaLosInge
             }
         }
 
+        private void InicializarEstados()
+        {
+            cboTipoLibro.SelectedIndex = -1; // Inicialmente, no se selecciona ningún tipo de libro
+            ListFisico.Enabled = false; // Deshabilitar lista de libros físicos
+            ListElectronico.Enabled = false; // Deshabilitar lista de libros electrónicos
+            ListFisico.ClearSelected(); // Limpiar selección en lista de físicos
+            ListElectronico.ClearSelected(); // Limpiar selección en lista de electrónicos
+        }
+
+        private void CargarTiposDeLibro()
+        {
+            cboTipoLibro.Items.Clear();
+            cboTipoLibro.Items.Add("Libro Físico");
+            cboTipoLibro.Items.Add("Libro Electrónico");
+            cboTipoLibro.SelectedIndex = -1; // No seleccionar ningún ítem por defecto
+        }
+
         private void cboTipoLibro_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string seleccion = cboTipoLibro.SelectedItem.ToString();
+            string tipoSeleccionado = cboTipoLibro.SelectedItem?.ToString() ?? "";
 
-            if (seleccion == "Libro Físico")
+            // Deshabilitar ambas listas antes de habilitar la correcta
+            ListFisico.Enabled = false;
+            ListElectronico.Enabled = false;
+
+            // Limpiar selección en ambas listas
+            ListFisico.ClearSelected();
+            ListElectronico.ClearSelected();
+
+            if (tipoSeleccionado == "Libro Físico")
             {
-                ListFisico.Enabled = true;
-                ListElectronico.Enabled = false;
-                ListElectronico.ClearSelected(); // Desmarcar selección en la lista de electrónicos
+                ListFisico.Enabled = true; // Habilitar lista de libros físicos
             }
-            else if (seleccion == "Libro Electrónico")
+            else if (tipoSeleccionado == "Libro Electrónico")
             {
-                ListElectronico.Enabled = true;
-                ListFisico.Enabled = false;
-                ListFisico.ClearSelected(); // Desmarcar selección en la lista de físicos
-            }
-            else
-            {
-                ListFisico.Enabled = false;
-                ListElectronico.Enabled = false;
-                ListFisico.ClearSelected();
-                ListElectronico.ClearSelected();
+                ListElectronico.Enabled = true; // Habilitar lista de libros electrónicos
             }
         }
 
@@ -123,13 +129,49 @@ namespace BibliotecaLosInge
                 return;
             }
 
-            // Lógica para modificar el préstamo
+            // Cargar los datos del préstamo seleccionado en los controles
+            cboNombreMiembro.SelectedItem = prestamoSeleccionado.Miembro;
+            if (prestamoSeleccionado.Libro is LibroFisico)
+            {
+                cboTipoLibro.SelectedItem = "Libro Físico";
+                ListFisico.SelectedItem = prestamoSeleccionado.Libro;
+            }
+            else
+            {
+                cboTipoLibro.SelectedItem = "Libro Electrónico";
+                ListElectronico.SelectedItem = prestamoSeleccionado.Libro;
+            }
+            dtpFechaSalida.Value = prestamoSeleccionado.FechaSalida;
+            dtpFechaDevolucion.Value = prestamoSeleccionado.FechaDevolucion;
+
+            // Modificar el préstamo existente
+            _dataManager.EliminarPrestamo(prestamoSeleccionado);
+            btnAgregarPrestamo.Text = "Guardar Cambios";
+            btnAgregarPrestamo.Click -= btnAgregarPrestamo_Click;
+            btnAgregarPrestamo.Click += (s, args) =>
+            {
+                Prestamo prestamoModificado = new Prestamo(
+                    miembroSeleccionado,
+                    ObtenerLibroSeleccionado(),
+                    dtpFechaSalida.Value,
+                    dtpFechaDevolucion.Value,
+                    ObtenerLibroSeleccionado() is LibroElectronico);
+
+                _dataManager.AgregarPrestamo(prestamoModificado);
+                ActualizarListaPrestamos();
+                btnAgregarPrestamo.Text = "Agregar";
+                btnAgregarPrestamo.Click -= (s, args) =>
+                {
+                    btnAgregarPrestamo_Click(s, args);
+                };
+                btnAgregarPrestamo.Click += btnAgregarPrestamo_Click;
+            };
         }
 
         private void ActualizarListaPrestamos()
         {
             lstPrestamos.Items.Clear();
-            foreach (Prestamo prestamo in _dataManager.ObtenerPrestamos())
+            foreach (var prestamo in _dataManager.ObtenerPrestamos())
             {
                 lstPrestamos.Items.Add(prestamo);
             }
@@ -144,52 +186,6 @@ namespace BibliotecaLosInge
                 return ListElectronico.SelectedItem as Libro;
 
             return null;
-        }
-
-        private void ListFisico_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            // Desmarcar la lista de electrónicos si se selecciona un libro físico
-            if (ListFisico.SelectedItem != null)
-            {
-                ListElectronico.ClearSelected();
-            }
-        }
-
-        private void ListElectronico_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            // Desmarcar la lista de físicos si se selecciona un libro electrónico
-            if (ListElectronico.SelectedItem != null)
-            {
-                ListFisico.ClearSelected();
-            }
-        }
-
-        private void lstPrestamos_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            // Actualizar campos basados en el préstamo seleccionado
-            Prestamo prestamoSeleccionado = lstPrestamos.SelectedItem as Prestamo;
-            if (prestamoSeleccionado != null)
-            {
-                cboNombreMiembro.SelectedItem = prestamoSeleccionado.Miembro;
-
-                if (prestamoSeleccionado.Libro is LibroFisico libroFisico)
-                {
-                    cboTipoLibro.SelectedItem = "Libro Físico";
-                    ListFisico.Enabled = true;
-                    ListFisico.SelectedItem = libroFisico;
-                    ListElectronico.ClearSelected(); // Desmarcar la lista de electrónicos
-                }
-                else if (prestamoSeleccionado.Libro is LibroElectronico libroElectronico)
-                {
-                    cboTipoLibro.SelectedItem = "Libro Electrónico";
-                    ListElectronico.Enabled = true;
-                    ListElectronico.SelectedItem = libroElectronico;
-                    ListFisico.ClearSelected(); // Desmarcar la lista de físicos
-                }
-
-                dtpFechaSalida.Value = prestamoSeleccionado.FechaSalida;
-                dtpFechaDevolucion.Value = prestamoSeleccionado.FechaDevolucion;
-            }
         }
     }
 }
