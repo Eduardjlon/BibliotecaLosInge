@@ -7,7 +7,7 @@ namespace BibliotecaLosInge
     public partial class GestionPrestamo : Form
     {
         private DataManager _dataManager;
-        private Miembro miembroSeleccionado;
+        private Prestamo _prestamoEnEdicion; // Para almacenar el préstamo en edición
 
         public GestionPrestamo()
         {
@@ -53,6 +53,8 @@ namespace BibliotecaLosInge
             ListElectronico.Enabled = false; // Deshabilitar lista de libros electrónicos
             ListFisico.ClearSelected(); // Limpiar selección en lista de físicos
             ListElectronico.ClearSelected(); // Limpiar selección en lista de electrónicos
+            btnAgregarPrestamo.Text = "Agregar"; // Restablecer texto del botón
+            _prestamoEnEdicion = null; // Restablecer estado de edición
         }
 
         private void CargarTiposDeLibro()
@@ -96,14 +98,34 @@ namespace BibliotecaLosInge
                 return;
             }
 
-            Prestamo prestamo = new Prestamo(
-                miembroSeleccionado,
-                libroSeleccionado,
-                dtpFechaSalida.Value,
-                dtpFechaDevolucion.Value,
-                libroSeleccionado is LibroElectronico);
+            if (_prestamoEnEdicion == null)
+            {
+                // Crear un nuevo préstamo
+                Prestamo prestamo = new Prestamo(
+                    miembroSeleccionado,
+                    libroSeleccionado,
+                    dtpFechaSalida.Value,
+                    dtpFechaDevolucion.Value,
+                    libroSeleccionado is LibroElectronico);
 
-            _dataManager.AgregarPrestamo(prestamo);
+                _dataManager.AgregarPrestamo(prestamo);
+            }
+            else
+            {
+                // Modificar el préstamo existente
+                Prestamo prestamoModificado = new Prestamo(
+                    miembroSeleccionado,
+                    libroSeleccionado,
+                    dtpFechaSalida.Value,
+                    dtpFechaDevolucion.Value,
+                    libroSeleccionado is LibroElectronico);
+
+                _dataManager.EliminarPrestamo(_prestamoEnEdicion);
+                _dataManager.AgregarPrestamo(prestamoModificado);
+                _prestamoEnEdicion = null; // Restablecer estado de edición
+                btnAgregarPrestamo.Text = "Agregar"; // Restaurar el texto del botón
+            }
+
             ActualizarListaPrestamos();
         }
 
@@ -144,28 +166,9 @@ namespace BibliotecaLosInge
             dtpFechaSalida.Value = prestamoSeleccionado.FechaSalida;
             dtpFechaDevolucion.Value = prestamoSeleccionado.FechaDevolucion;
 
-            // Modificar el préstamo existente
-            _dataManager.EliminarPrestamo(prestamoSeleccionado);
-            btnAgregarPrestamo.Text = "Guardar Cambios";
-            btnAgregarPrestamo.Click -= btnAgregarPrestamo_Click;
-            btnAgregarPrestamo.Click += (s, args) =>
-            {
-                Prestamo prestamoModificado = new Prestamo(
-                    miembroSeleccionado,
-                    ObtenerLibroSeleccionado(),
-                    dtpFechaSalida.Value,
-                    dtpFechaDevolucion.Value,
-                    ObtenerLibroSeleccionado() is LibroElectronico);
-
-                _dataManager.AgregarPrestamo(prestamoModificado);
-                ActualizarListaPrestamos();
-                btnAgregarPrestamo.Text = "Agregar";
-                btnAgregarPrestamo.Click -= (s, args) =>
-                {
-                    btnAgregarPrestamo_Click(s, args);
-                };
-                btnAgregarPrestamo.Click += btnAgregarPrestamo_Click;
-            };
+            // Establecer el préstamo en edición
+            _prestamoEnEdicion = prestamoSeleccionado;
+            btnAgregarPrestamo.Text = "Guardar Cambios"; // Cambiar texto del botón
         }
 
         private void ActualizarListaPrestamos()
