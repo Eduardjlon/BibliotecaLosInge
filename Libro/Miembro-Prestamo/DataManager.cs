@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace BibliotecaLosInge
 {
@@ -128,6 +127,16 @@ namespace BibliotecaLosInge
         public void EliminarPrestamo(Prestamo prestamo)
         {
             prestamos.Remove(prestamo);
+        }
+
+        public void ModificarPrestamo(Prestamo prestamo)
+        {
+            // Encuentra el índice del préstamo a modificar
+            var index = prestamos.IndexOf(prestamo);
+            if (index >= 0)
+            {
+                prestamos[index] = prestamo; // Actualiza el préstamo en la lista
+            }
         }
     }
 }

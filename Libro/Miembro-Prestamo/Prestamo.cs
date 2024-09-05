@@ -2,11 +2,11 @@
 {
     public class Prestamo
     {
-        public Miembro Miembro { get; private set; }
-        public Libro Libro { get; private set; }
-        public DateTime FechaSalida { get; private set; }
-        public DateTime FechaDevolucion { get; private set; }
-        public bool EsElectronico { get; private set; }
+        public Miembro Miembro { get; set; }
+        public Libro Libro { get; set; }
+        public DateTime FechaSalida { get; set; }
+        public DateTime FechaDevolucion { get; set; }
+        public bool EsElectronico { get; set; }
 
         public Prestamo(Miembro miembro, Libro libro, DateTime fechaSalida, DateTime fechaDevolucion, bool esElectronico)
         {
