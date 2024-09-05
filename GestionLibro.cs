@@ -27,14 +27,12 @@ public partial class GestionLibro : Form
 
     private void MostrarLibroEnLista(Libro libro)
     {
-        if (libro is LibroFisico)
+        if (libro is LibroFisico libroFisico)
         {
-            LibroFisico libroFisico = (LibroFisico)libro;
             lstLibros.Items.Add($"Título: {libroFisico.Titulo}, Autor: {libroFisico.Autor}, Año: {libroFisico.AñoPublicacion}, Tipo: Físico ({libroFisico.Cantidad})");
         }
-        else if (libro is LibroElectronico)
+        else if (libro is LibroElectronico libroElect)
         {
-            LibroElectronico libroElect = (LibroElectronico)libro;
             lstLibros.Items.Add($"Título: {libroElect.Titulo}, Autor: {libroElect.Autor}, Año: {libroElect.AñoPublicacion}, Tipo: Electrónico ({libroElect.Formato})");
         }
         else
@@ -132,7 +130,6 @@ public partial class GestionLibro : Form
 
     private void btnEliminarLibro_Click(object sender, EventArgs e)
     {
-        libroSeleccionado = lstLibros.SelectedItem as Libro;
         if (libroSeleccionado != null)
         {
             if (libroSeleccionado is LibroFisico libroFisico)
@@ -140,20 +137,20 @@ public partial class GestionLibro : Form
                 if (libroFisico.Cantidad > 1)
                 {
                     libroFisico.Cantidad--;
-                    DataManager.Instance.ActualizarListaLibros();
                     MessageBox.Show($"La cantidad de '{libroFisico.Titulo}' ha sido reducida a {libroFisico.Cantidad}.");
+                    ActualizarListaLibros(); // Actualiza la lista con la nueva cantidad
                 }
                 else
                 {
                     DataManager.Instance.EliminarLibro(libroSeleccionado);
-                    lstLibros.Items.Remove(libroSeleccionado);
+                    lstLibros.Items.Remove(lstLibros.SelectedItem);
                     LimpiarCampos();
                 }
             }
             else
             {
                 DataManager.Instance.EliminarLibro(libroSeleccionado);
-                lstLibros.Items.Remove(libroSeleccionado);
+                lstLibros.Items.Remove(lstLibros.SelectedItem);
                 LimpiarCampos();
             }
         }
@@ -195,9 +192,7 @@ public partial class GestionLibro : Form
                 libroElect.Formato = formato;
             }
 
-            int index = lstLibros.SelectedIndex;
             ActualizarListaLibros();
-            lstLibros.SelectedIndex = index;
             LimpiarCampos();
         }
         else
@@ -250,6 +245,7 @@ public partial class GestionLibro : Form
 
     private void TxtAñoPublicacion_KeyPress(object sender, KeyPressEventArgs e)
     {
+        // Solo permitir la entrada de números
         if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)Keys.Back)
         {
             e.Handled = true;
@@ -259,6 +255,9 @@ public partial class GestionLibro : Form
     private void ActualizarListaLibros()
     {
         lstLibros.Items.Clear();
-        CargarLibros();
+        foreach (Libro libro in DataManager.Instance.ObtenerLibros())
+        {
+            MostrarLibroEnLista(libro);
+        }
     }
 }
