@@ -17,6 +17,6 @@
     // Método para representar el libro en forma de cadena
     public override string ToString()
     {
-        return $"{Titulo} - {Autor} ({AñoPublicacion}) [{Tipo}]";  // Muestra el tipo en la cadena
+        return $"{Titulo} - {Autor} ({AñoPublicacion}) - Tipo: {Tipo}";  // Muestra el tipo en la cadena
     }
 }

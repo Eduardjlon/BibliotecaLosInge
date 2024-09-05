@@ -27,12 +27,12 @@ public partial class GestionLibro : Form
         if (libro is LibroFisico libroFisico)
         {
             // Mostrar título, autor, año y cantidad para libros físicos
-            lstLibros.Items.Add($"{libroFisico.Titulo} - {libroFisico.Autor} ({libroFisico.AñoPublicacion}) - Cantidad: {libroFisico.Cantidad}");
+            lstLibros.Items.Add($"{libroFisico.Titulo} - {libroFisico.Autor} ({libroFisico.AñoPublicacion}) - Tipo: Físico - Cantidad: {libroFisico.Cantidad}");
         }
         else if (libro is LibroElectronico libroElectronico)
         {
             // Mostrar título, autor, año y formato para libros electrónicos
-            lstLibros.Items.Add($"{libroElectronico.Titulo} - {libroElectronico.Autor} ({libroElectronico.AñoPublicacion}) - Formato: {libroElectronico.Formato}");
+            lstLibros.Items.Add($"{libroElectronico.Titulo} - {libroElectronico.Autor} ({libroElectronico.AñoPublicacion}) - Tipo: Electrónico - Formato: {libroElectronico.Formato}");
         }
     }
 
@@ -49,6 +49,7 @@ public partial class GestionLibro : Form
         string titulo = txtTitulo.Text;
         string autor = txtAutor.Text;
         string tipoLibro = cboTipoLibro.SelectedItem.ToString();
+        string formato = tipoLibro == "Electrónico" ? "PDF" : ""; // Formato por defecto para libros electrónicos
 
         if (int.TryParse(txtAñoPublicacion.Text, out int añoPublicacion))
         {
@@ -79,7 +80,7 @@ public partial class GestionLibro : Form
                     // Crear un nuevo libro físico y agregarlo
                     LibroFisico nuevoLibroFisico = new LibroFisico(titulo, autor, añoPublicacion, 1);
                     DataManager.Instance.AgregarLibro(nuevoLibroFisico);
-                    lstLibros.Items.Add($"{nuevoLibroFisico.Titulo} - {nuevoLibroFisico.Autor} ({nuevoLibroFisico.AñoPublicacion}) - Cantidad: {nuevoLibroFisico.Cantidad}");
+                    lstLibros.Items.Add($"{nuevoLibroFisico.Titulo} - {nuevoLibroFisico.Autor} ({nuevoLibroFisico.AñoPublicacion}) - Tipo: Físico - Cantidad: {nuevoLibroFisico.Cantidad}");
                     LimpiarCampos();
                 }
             }
@@ -104,9 +105,9 @@ public partial class GestionLibro : Form
                 if (!libroExistente)
                 {
                     // Crear un nuevo libro electrónico y agregarlo
-                    LibroElectronico nuevoLibroElectronico = new LibroElectronico(titulo, autor, añoPublicacion, "PDF"); // Proporciona un formato por defecto
+                    LibroElectronico nuevoLibroElectronico = new LibroElectronico(titulo, autor, añoPublicacion, formato);
                     DataManager.Instance.AgregarLibro(nuevoLibroElectronico);
-                    lstLibros.Items.Add($"{nuevoLibroElectronico.Titulo} - {nuevoLibroElectronico.Autor} ({nuevoLibroElectronico.AñoPublicacion}) - Formato: {nuevoLibroElectronico.Formato}");
+                    lstLibros.Items.Add($"{nuevoLibroElectronico.Titulo} - {nuevoLibroElectronico.Autor} ({nuevoLibroElectronico.AñoPublicacion}) - Tipo: Electrónico - Formato: {nuevoLibroElectronico.Formato}");
                     LimpiarCampos();
                 }
             }
@@ -157,17 +158,23 @@ public partial class GestionLibro : Form
             string titulo = txtTitulo.Text;
             string autor = txtAutor.Text;
             string tipoLibro = cboTipoLibro.SelectedItem.ToString();
+            string formato = tipoLibro == "Electrónico" ? "PDF" : ""; // Formato por defecto para libros electrónicos
 
             if (int.TryParse(txtAñoPublicacion.Text, out int añoPublicacion))
             {
                 libroSeleccionado.Titulo = titulo;
                 libroSeleccionado.Autor = autor;
                 libroSeleccionado.AñoPublicacion = añoPublicacion;
-                // Puedes agregar lógica adicional para el tipo de libro aquí si es necesario
+                // Actualizar el tipo y formato si es necesario
+                if (libroSeleccionado is LibroElectronico libroElectronico)
+                {
+                    libroElectronico.Formato = formato;
+                }
 
                 // Actualizar el libro en la lista
                 int index = lstLibros.SelectedIndex;
-                lstLibros.Items[index] = libroSeleccionado;
+                MostrarLibroEnLista(libroSeleccionado); // Actualiza la vista del libro
+                lstLibros.Items[index] = $"{libroSeleccionado.Titulo} - {libroSeleccionado.Autor} ({libroSeleccionado.AñoPublicacion}) - Tipo: {(libroSeleccionado is LibroFisico ? "Físico" : "Electrónico")} - {(libroSeleccionado is LibroElectronico libroElec ? $"Formato: {libroElec.Formato}" : $"Cantidad: {(libroSeleccionado as LibroFisico)?.Cantidad}")}";
                 LimpiarCampos();
             }
             else
@@ -198,7 +205,14 @@ public partial class GestionLibro : Form
             txtTitulo.Text = libroSeleccionado.Titulo;
             txtAutor.Text = libroSeleccionado.Autor;
             txtAñoPublicacion.Text = libroSeleccionado.AñoPublicacion.ToString();
-            cboTipoLibro.SelectedItem = libroSeleccionado is LibroFisico ? "Físico" : "Electrónico";
+            if (libroSeleccionado is LibroFisico)
+            {
+                cboTipoLibro.SelectedItem = "Físico";
+            }
+            else if (libroSeleccionado is LibroElectronico)
+            {
+                cboTipoLibro.SelectedItem = "Electrónico";
+            }
         }
     }
 
