@@ -7,12 +7,12 @@ namespace BibliotecaLosInge
     public partial class GestionPrestamo : Form
     {
         private DataManager _dataManager;
-        private Prestamo _prestamoEnEdicion; // Para almacenar el préstamo en edición
+        private Prestamo _prestamoEnEdicion;
 
         public GestionPrestamo()
         {
             InitializeComponent();
-            _dataManager = DataManager.Instance; // Singleton
+            _dataManager = DataManager.Instance;
             CargarMiembros();
             CargarLibros();
             InicializarEstados();
@@ -48,13 +48,13 @@ namespace BibliotecaLosInge
 
         private void InicializarEstados()
         {
-            cboTipoLibro.SelectedIndex = -1; // Inicialmente, no se selecciona ningún tipo de libro
-            ListFisico.Enabled = false; // Deshabilitar lista de libros físicos
-            ListElectronico.Enabled = false; // Deshabilitar lista de libros electrónicos
-            ListFisico.ClearSelected(); // Limpiar selección en lista de físicos
-            ListElectronico.ClearSelected(); // Limpiar selección en lista de electrónicos
-            btnAgregarPrestamo.Text = "Agregar"; // Restablecer texto del botón
-            _prestamoEnEdicion = null; // Restablecer estado de edición
+            cboTipoLibro.SelectedIndex = -1;
+            ListFisico.Enabled = false;
+            ListElectronico.Enabled = false;
+            ListFisico.ClearSelected();
+            ListElectronico.ClearSelected();
+            btnAgregarPrestamo.Text = "Agregar";
+            _prestamoEnEdicion = null;
         }
 
         private void CargarTiposDeLibro()
@@ -62,29 +62,18 @@ namespace BibliotecaLosInge
             cboTipoLibro.Items.Clear();
             cboTipoLibro.Items.Add("Libro Físico");
             cboTipoLibro.Items.Add("Libro Electrónico");
-            cboTipoLibro.SelectedIndex = -1; // No seleccionar ningún ítem por defecto
+            cboTipoLibro.SelectedIndex = -1;
         }
 
         private void cboTipoLibro_SelectedIndexChanged(object sender, EventArgs e)
         {
             string tipoSeleccionado = cboTipoLibro.SelectedItem?.ToString() ?? "";
 
-            // Deshabilitar ambas listas antes de habilitar la correcta
-            ListFisico.Enabled = false;
-            ListElectronico.Enabled = false;
+            ListFisico.Enabled = tipoSeleccionado == "Libro Físico";
+            ListElectronico.Enabled = tipoSeleccionado == "Libro Electrónico";
 
-            // Limpiar selección en ambas listas
             ListFisico.ClearSelected();
             ListElectronico.ClearSelected();
-
-            if (tipoSeleccionado == "Libro Físico")
-            {
-                ListFisico.Enabled = true; // Habilitar lista de libros físicos
-            }
-            else if (tipoSeleccionado == "Libro Electrónico")
-            {
-                ListElectronico.Enabled = true; // Habilitar lista de libros electrónicos
-            }
         }
 
         private void btnAgregarPrestamo_Click(object sender, EventArgs e)
@@ -109,6 +98,20 @@ namespace BibliotecaLosInge
                     libroSeleccionado is LibroElectronico);
 
                 _dataManager.AgregarPrestamo(prestamo);
+
+                if (libroSeleccionado is LibroFisico libroFisico)
+                {
+                    if (libroFisico.Cantidad > 0)
+                    {
+                        libroFisico.Cantidad--;
+                        ActualizarListaLibros();
+                    }
+                    else
+                    {
+                        MessageBox.Show("No hay suficientes copias del libro físico para realizar el préstamo.");
+                        return;
+                    }
+                }
             }
             else
             {
@@ -122,8 +125,8 @@ namespace BibliotecaLosInge
 
                 _dataManager.EliminarPrestamo(_prestamoEnEdicion);
                 _dataManager.AgregarPrestamo(prestamoModificado);
-                _prestamoEnEdicion = null; // Restablecer estado de edición
-                btnAgregarPrestamo.Text = "Agregar"; // Restaurar el texto del botón
+                _prestamoEnEdicion = null;
+                btnAgregarPrestamo.Text = "Agregar";
             }
 
             ActualizarListaPrestamos();
@@ -136,6 +139,12 @@ namespace BibliotecaLosInge
             {
                 MessageBox.Show("Debe seleccionar un préstamo.");
                 return;
+            }
+
+            if (prestamoSeleccionado.Libro is LibroFisico libroFisico)
+            {
+                libroFisico.Cantidad++;
+                ActualizarListaLibros();
             }
 
             _dataManager.EliminarPrestamo(prestamoSeleccionado);
@@ -151,7 +160,6 @@ namespace BibliotecaLosInge
                 return;
             }
 
-            // Cargar los datos del préstamo seleccionado en los controles
             cboNombreMiembro.SelectedItem = prestamoSeleccionado.Miembro;
             if (prestamoSeleccionado.Libro is LibroFisico)
             {
@@ -166,9 +174,8 @@ namespace BibliotecaLosInge
             dtpFechaSalida.Value = prestamoSeleccionado.FechaSalida;
             dtpFechaDevolucion.Value = prestamoSeleccionado.FechaDevolucion;
 
-            // Establecer el préstamo en edición
             _prestamoEnEdicion = prestamoSeleccionado;
-            btnAgregarPrestamo.Text = "Guardar Cambios"; // Cambiar texto del botón
+            btnAgregarPrestamo.Text = "Guardar Cambios";
         }
 
         private void ActualizarListaPrestamos()
@@ -177,6 +184,24 @@ namespace BibliotecaLosInge
             foreach (var prestamo in _dataManager.ObtenerPrestamos())
             {
                 lstPrestamos.Items.Add(prestamo);
+            }
+        }
+
+        private void ActualizarListaLibros()
+        {
+            ListFisico.Items.Clear();
+            ListElectronico.Items.Clear();
+
+            foreach (var libro in _dataManager.ObtenerLibros())
+            {
+                if (libro is LibroFisico)
+                {
+                    ListFisico.Items.Add(libro);
+                }
+                else if (libro is LibroElectronico)
+                {
+                    ListElectronico.Items.Add(libro);
+                }
             }
         }
 

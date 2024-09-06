@@ -27,18 +27,13 @@ public partial class GestionLibro : Form
 
     private void MostrarLibroEnLista(Libro libro)
     {
-        if (libro is LibroFisico libroFisico)
-        {
-            lstLibros.Items.Add($"Título: {libroFisico.Titulo}, Autor: {libroFisico.Autor}, Año: {libroFisico.AñoPublicacion}, Tipo: Físico ({libroFisico.Cantidad})");
-        }
-        else if (libro is LibroElectronico libroElect)
-        {
-            lstLibros.Items.Add($"Título: {libroElect.Titulo}, Autor: {libroElect.Autor}, Año: {libroElect.AñoPublicacion}, Tipo: Electrónico ({libroElect.Formato})");
-        }
-        else
-        {
-            lstLibros.Items.Add($"Título: {libro.Titulo}, Autor: {libro.Autor}, Año: {libro.AñoPublicacion}");
-        }
+        string texto = libro is LibroFisico libroFisico
+            ? $"Título: {libroFisico.Titulo}, Autor: {libroFisico.Autor}, Año: {libroFisico.AñoPublicacion}, Tipo: Físico ({libroFisico.Cantidad})"
+            : libro is LibroElectronico libroElect
+            ? $"Título: {libroElect.Titulo}, Autor: {libroElect.Autor}, Año: {libroElect.AñoPublicacion}, Tipo: Electrónico ({libroElect.Formato})"
+            : $"Título: {libro.Titulo}, Autor: {libro.Autor}, Año: {libro.AñoPublicacion}";
+
+        lstLibros.Items.Add(texto);
     }
 
     private void CargarTiposDeLibro()
@@ -201,6 +196,15 @@ public partial class GestionLibro : Form
         }
     }
 
+    public void ActualizarListaLibros()
+    {
+        lstLibros.Items.Clear();
+        foreach (Libro libro in DataManager.Instance.ObtenerLibros())
+        {
+            MostrarLibroEnLista(libro);
+        }
+    }
+
     private void LimpiarCampos()
     {
         txtTitulo.Clear();
@@ -212,31 +216,21 @@ public partial class GestionLibro : Form
 
     private void lstLibros_SelectedIndexChanged(object sender, EventArgs e)
     {
-        string textoSeleccionado = lstLibros.SelectedItem as string;
-        if (textoSeleccionado != null)
+        string textoSeleccionado = (string)lstLibros.SelectedItem;
+
+        if (!string.IsNullOrEmpty(textoSeleccionado))
         {
             foreach (Libro libro in DataManager.Instance.ObtenerLibros())
             {
-                string textoLibro = libro is LibroFisico libroFisico
-                    ? $"Título: {libroFisico.Titulo}, Autor: {libroFisico.Autor}, Año: {libroFisico.AñoPublicacion}, Tipo: Físico ({libroFisico.Cantidad})"
-                    : libro is LibroElectronico libroElect
-                    ? $"Título: {libroElect.Titulo}, Autor: {libroElect.Autor}, Año: {libroElect.AñoPublicacion}, Tipo: Electrónico ({libroElect.Formato})"
-                    : $"Título: {libro.Titulo}, Autor: {libro.Autor}, Año: {libro.AñoPublicacion}";
-
-                if (textoLibro == textoSeleccionado)
+                if (textoSeleccionado.Contains(libro.Titulo) &&
+                    textoSeleccionado.Contains(libro.Autor) &&
+                    textoSeleccionado.Contains(libro.AñoPublicacion.ToString()))
                 {
                     libroSeleccionado = libro;
                     txtTitulo.Text = libro.Titulo;
                     txtAutor.Text = libro.Autor;
                     txtAñoPublicacion.Text = libro.AñoPublicacion.ToString();
-                    if (libro is LibroFisico)
-                    {
-                        cboTipoLibro.SelectedItem = "Físico";
-                    }
-                    else if (libro is LibroElectronico)
-                    {
-                        cboTipoLibro.SelectedItem = "Electrónico";
-                    }
+                    cboTipoLibro.SelectedItem = libro is LibroFisico ? "Físico" : "Electrónico";
                     break;
                 }
             }
@@ -245,19 +239,9 @@ public partial class GestionLibro : Form
 
     private void TxtAñoPublicacion_KeyPress(object sender, KeyPressEventArgs e)
     {
-        // Solo permitir la entrada de números
-        if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)Keys.Back)
+        if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
         {
-            e.Handled = true;
-        }
-    }
-
-    private void ActualizarListaLibros()
-    {
-        lstLibros.Items.Clear();
-        foreach (Libro libro in DataManager.Instance.ObtenerLibros())
-        {
-            MostrarLibroEnLista(libro);
+            e.Handled = true; // Evita la entrada de caracteres no numéricos
         }
     }
 }
