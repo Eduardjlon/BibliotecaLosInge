@@ -132,6 +132,7 @@ namespace BibliotecaLosInge
         public void ModificarPrestamo(Prestamo prestamo)
         {
             // Encuentra el índice del préstamo a modificar
+            //Holacomoestan
             var index = prestamos.IndexOf(prestamo);
             if (index >= 0)
             {
