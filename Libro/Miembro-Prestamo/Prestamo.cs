@@ -19,8 +19,30 @@
 
         public override string ToString()
         {
+            var tipoLibro = EsElectronico ? "Libro electrónico" : "Libro físico";
+            string mensajeAdicional = string.Empty;
+
+            if (EsElectronico && Libro is LibroElectronico libroElectronico)
+            {
+                if (libroElectronico.Formato == "PDF")
+                {
+                    mensajeAdicional = libroElectronico.ObtenerTamaño();
+                }
+                else if (libroElectronico.Formato == "URL")
+                {
+                    // Mostrar solo fecha de entrega y el link de acceso para libros en formato URL
+                    return $"{Miembro.Nombre} recibió un link de acceso al libro '{Libro.Titulo}' el {FechaSalida.ToShortDateString()}.";
+                }
+            }
+            else if (!EsElectronico && Libro is LibroFisico libroFisico)
+            {
+                // Generar una ubicación aleatoria para cada préstamo del libro físico
+                string ubicacion = libroFisico.GenerarUbicacionAleatoria();
+                mensajeAdicional = $"Tomó el libro del estante '{ubicacion}'.";
+            }
+
             return $"{Miembro.Nombre} ha tomado prestado '{Libro.Titulo}' del autor '{Libro.Autor}' el {FechaSalida.ToShortDateString()}. " +
-                   $"Tipo: {(EsElectronico ? "Libro electrónico" : "Libro físico")}. Fecha de devolución: {FechaDevolucion.ToShortDateString()}";
+                   $"{mensajeAdicional} Fecha de devolución: {FechaDevolucion.ToShortDateString()}";
         }
     }
 }

@@ -3,24 +3,25 @@
 public class LibroFisico : Libro
 {
     public int Cantidad { get; set; }
-    public string Ubicacion { get; private set; }
+
+    // Lista de estantes predefinidos
+    private static readonly string[] estantes = { "P1A", "P2A", "P3A", "P1J", "P2J", "P3J", "P1D", "P2D", "P3D" };
 
     public LibroFisico(string titulo, string autor, int añoPublicacion, int cantidad = 1)
         : base(titulo, autor, añoPublicacion, "Físico") // Pasa "Físico" como tipo
     {
         Cantidad = cantidad;
-        Ubicacion = GenerarUbicacionAleatoria(); // Asigna una ubicación aleatoria al crear el libro
     }
 
-    private string GenerarUbicacionAleatoria()
+    // Método para generar la ubicación aleatoria cuando sea necesario
+    public string GenerarUbicacionAleatoria()
     {
         Random random = new Random();
-        char letra = (char)('A' + random.Next(0, 26)); // Genera una letra aleatoria entre A y Z
-        return letra.ToString();
+        return estantes[random.Next(estantes.Length)];
     }
 
     public override string ToString()
     {
-        return $"{Titulo} ({Cantidad}) - Ubicación: {Ubicacion}";
+        return $"{Titulo} ({Cantidad})";
     }
 }
