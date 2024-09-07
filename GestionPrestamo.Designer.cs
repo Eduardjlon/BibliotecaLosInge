@@ -49,46 +49,42 @@
             lstPrestamos.BackColor = Color.Blue;
             lstPrestamos.ForeColor = Color.WhiteSmoke;
             lstPrestamos.FormattingEnabled = true;
-            lstPrestamos.Location = new Point(11, 15);
-            lstPrestamos.Margin = new Padding(3, 4, 3, 4);
+            lstPrestamos.ItemHeight = 15;
+            lstPrestamos.Location = new Point(10, 11);
             lstPrestamos.Name = "lstPrestamos";
-            lstPrestamos.Size = new Size(1045, 224);
+            lstPrestamos.Size = new Size(1014, 169);
             lstPrestamos.TabIndex = 0;
             // 
             // cboNombreMiembro
             // 
             cboNombreMiembro.DropDownStyle = ComboBoxStyle.DropDownList;
             cboNombreMiembro.FormattingEnabled = true;
-            cboNombreMiembro.Location = new Point(102, 248);
-            cboNombreMiembro.Margin = new Padding(3, 4, 3, 4);
+            cboNombreMiembro.Location = new Point(89, 186);
             cboNombreMiembro.Name = "cboNombreMiembro";
-            cboNombreMiembro.Size = new Size(219, 28);
+            cboNombreMiembro.Size = new Size(192, 23);
             cboNombreMiembro.TabIndex = 1;
             // 
             // dtpFechaSalida
             // 
-            dtpFechaSalida.Location = new Point(707, 246);
-            dtpFechaSalida.Margin = new Padding(3, 4, 3, 4);
+            dtpFechaSalida.Location = new Point(773, 183);
             dtpFechaSalida.Name = "dtpFechaSalida";
-            dtpFechaSalida.Size = new Size(286, 27);
+            dtpFechaSalida.Size = new Size(251, 23);
             dtpFechaSalida.TabIndex = 3;
             // 
             // dtpFechaDevolucion
             // 
-            dtpFechaDevolucion.Location = new Point(707, 281);
-            dtpFechaDevolucion.Margin = new Padding(3, 4, 3, 4);
+            dtpFechaDevolucion.Location = new Point(773, 212);
             dtpFechaDevolucion.Name = "dtpFechaDevolucion";
-            dtpFechaDevolucion.Size = new Size(286, 27);
+            dtpFechaDevolucion.Size = new Size(251, 23);
             dtpFechaDevolucion.TabIndex = 4;
             // 
             // btnAgregarPrestamo
             // 
             btnAgregarPrestamo.BackColor = Color.Lime;
             btnAgregarPrestamo.ForeColor = Color.Black;
-            btnAgregarPrestamo.Location = new Point(981, 331);
-            btnAgregarPrestamo.Margin = new Padding(3, 4, 3, 4);
+            btnAgregarPrestamo.Location = new Point(958, 261);
             btnAgregarPrestamo.Name = "btnAgregarPrestamo";
-            btnAgregarPrestamo.Size = new Size(75, 37);
+            btnAgregarPrestamo.Size = new Size(66, 28);
             btnAgregarPrestamo.TabIndex = 6;
             btnAgregarPrestamo.Text = "Agregar";
             btnAgregarPrestamo.UseVisualStyleBackColor = false;
@@ -98,10 +94,9 @@
             // 
             btnEliminarPrestamo.BackColor = Color.Red;
             btnEliminarPrestamo.ForeColor = Color.White;
-            btnEliminarPrestamo.Location = new Point(981, 421);
-            btnEliminarPrestamo.Margin = new Padding(3, 4, 3, 4);
+            btnEliminarPrestamo.Location = new Point(958, 329);
             btnEliminarPrestamo.Name = "btnEliminarPrestamo";
-            btnEliminarPrestamo.Size = new Size(75, 37);
+            btnEliminarPrestamo.Size = new Size(66, 28);
             btnEliminarPrestamo.TabIndex = 7;
             btnEliminarPrestamo.Text = "Eliminar";
             btnEliminarPrestamo.UseVisualStyleBackColor = false;
@@ -111,10 +106,9 @@
             // 
             btnModificarPrestamo.BackColor = Color.FromArgb(0, 0, 192);
             btnModificarPrestamo.ForeColor = SystemColors.ButtonFace;
-            btnModificarPrestamo.Location = new Point(981, 376);
-            btnModificarPrestamo.Margin = new Padding(3, 4, 3, 4);
+            btnModificarPrestamo.Location = new Point(958, 295);
             btnModificarPrestamo.Name = "btnModificarPrestamo";
-            btnModificarPrestamo.Size = new Size(75, 37);
+            btnModificarPrestamo.Size = new Size(66, 28);
             btnModificarPrestamo.TabIndex = 8;
             btnModificarPrestamo.Text = "Modificar";
             btnModificarPrestamo.UseVisualStyleBackColor = false;
@@ -123,9 +117,9 @@
             // Miembro
             // 
             Miembro.AutoSize = true;
-            Miembro.Location = new Point(11, 259);
+            Miembro.Location = new Point(10, 194);
             Miembro.Name = "Miembro";
-            Miembro.Size = new Size(70, 20);
+            Miembro.Size = new Size(56, 15);
             Miembro.TabIndex = 9;
             Miembro.Text = "Miembro";
             Miembro.Click += Miembro_Click;
@@ -133,9 +127,9 @@
             // FechaRetiro
             // 
             FechaRetiro.AutoSize = true;
-            FechaRetiro.Location = new Point(541, 259);
+            FechaRetiro.Location = new Point(634, 194);
             FechaRetiro.Name = "FechaRetiro";
-            FechaRetiro.Size = new Size(170, 20);
+            FechaRetiro.Size = new Size(133, 15);
             FechaRetiro.TabIndex = 11;
             FechaRetiro.Text = "Fecha Retirada del Libro";
             FechaRetiro.Click += label1_Click;
@@ -143,9 +137,9 @@
             // FechaEntrega
             // 
             FechaEntrega.AutoSize = true;
-            FechaEntrega.Location = new Point(546, 297);
+            FechaEntrega.Location = new Point(634, 220);
             FechaEntrega.Name = "FechaEntrega";
-            FechaEntrega.Size = new Size(165, 20);
+            FechaEntrega.Size = new Size(130, 15);
             FechaEntrega.TabIndex = 12;
             FechaEntrega.Text = "Fecha Entrega del Libro";
             FechaEntrega.Click += FechaEntrega_Click;
@@ -155,10 +149,10 @@
             ListFisico.BackColor = Color.FromArgb(255, 128, 0);
             ListFisico.ForeColor = Color.Black;
             ListFisico.FormattingEnabled = true;
-            ListFisico.Location = new Point(17, 351);
-            ListFisico.Margin = new Padding(3, 4, 3, 4);
+            ListFisico.ItemHeight = 15;
+            ListFisico.Location = new Point(10, 263);
             ListFisico.Name = "ListFisico";
-            ListFisico.Size = new Size(312, 124);
+            ListFisico.Size = new Size(464, 94);
             ListFisico.TabIndex = 13;
             // 
             // ListElectronico
@@ -166,38 +160,37 @@
             ListElectronico.BackColor = Color.Yellow;
             ListElectronico.ForeColor = Color.Black;
             ListElectronico.FormattingEnabled = true;
-            ListElectronico.Location = new Point(382, 351);
-            ListElectronico.Margin = new Padding(3, 4, 3, 4);
+            ListElectronico.ItemHeight = 15;
+            ListElectronico.Location = new Point(488, 263);
             ListElectronico.Name = "ListElectronico";
-            ListElectronico.Size = new Size(576, 124);
+            ListElectronico.Size = new Size(464, 94);
             ListElectronico.TabIndex = 14;
             // 
             // cboTipoLibro
             // 
             cboTipoLibro.DropDownStyle = ComboBoxStyle.DropDownList;
             cboTipoLibro.FormattingEnabled = true;
-            cboTipoLibro.Location = new Point(102, 287);
-            cboTipoLibro.Margin = new Padding(3, 4, 3, 4);
+            cboTipoLibro.Location = new Point(89, 215);
             cboTipoLibro.Name = "cboTipoLibro";
-            cboTipoLibro.Size = new Size(219, 28);
+            cboTipoLibro.Size = new Size(192, 23);
             cboTipoLibro.TabIndex = 15;
             cboTipoLibro.SelectedIndexChanged += cboTipoLibro_SelectedIndexChanged;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(11, 297);
+            label1.Location = new Point(10, 223);
             label1.Name = "label1";
-            label1.Size = new Size(77, 20);
+            label1.Size = new Size(60, 15);
             label1.TabIndex = 16;
             label1.Text = "Tipo Libro";
             // 
             // GestionPrestamo
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Black;
-            ClientSize = new Size(1184, 492);
+            ClientSize = new Size(1036, 369);
             Controls.Add(label1);
             Controls.Add(cboTipoLibro);
             Controls.Add(ListElectronico);
@@ -213,7 +206,6 @@
             Controls.Add(cboNombreMiembro);
             Controls.Add(lstPrestamos);
             ForeColor = Color.White;
-            Margin = new Padding(3, 4, 3, 4);
             Name = "GestionPrestamo";
             Text = "Gestión de Préstamos";
             ResumeLayout(false);
