@@ -20,12 +20,13 @@ public class LibroElectronico : Libro
 
     public override string ToString()
     {
+        string tamañoInfo = "";
         if (Formato == "PDF")
         {
             Random rnd = new Random();
             int tamañoMB = rnd.Next(1, 1000); // Genera un tamaño aleatorio entre 1 y 999 MB
-            return $"{Titulo} - {Autor} ({AñoPublicacion}) - Tipo: {Tipo} - Formato: {Formato} - Tamaño: {tamañoMB} MB";
+            tamañoInfo = $" - Tamaño: {tamañoMB} MB";
         }
-        return $"{Titulo} - {Autor} ({AñoPublicacion}) - Tipo: {Tipo} - Formato: {Formato}";
+        return $"{Titulo} - {Autor} ({AñoPublicacion}) - Tipo: {Tipo} - Formato: {Formato}{tamañoInfo}";
     }
 }
