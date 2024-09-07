@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -9,15 +8,11 @@ namespace BibliotecaLosInge
     {
         private DataManager _dataManager;
         private Prestamo _prestamoEnEdicion;
-        private Dictionary<LibroFisico, char> _ubicacionesLibrosFisicos; // Ubicación generada aleatoriamente
-        private Dictionary<Prestamo, string> _ubicacionesPrestamos; // Ubicación para mostrar
 
         public GestionPrestamo()
         {
             InitializeComponent();
             _dataManager = DataManager.Instance;
-            _ubicacionesLibrosFisicos = new Dictionary<LibroFisico, char>();
-            _ubicacionesPrestamos = new Dictionary<Prestamo, string>();
             CargarMiembros();
             CargarLibros();
             InicializarEstados();
@@ -43,11 +38,6 @@ namespace BibliotecaLosInge
                 if (libro is LibroFisico libroFisico)
                 {
                     ListFisico.Items.Add(libroFisico);
-                    // Asignar ubicación aleatoria si aún no se ha asignado
-                    if (!_ubicacionesLibrosFisicos.ContainsKey(libroFisico))
-                    {
-                        _ubicacionesLibrosFisicos[libroFisico] = GenerarUbicacionAleatoria();
-                    }
                 }
                 else if (libro is LibroElectronico libroElectronico)
                 {
@@ -99,7 +89,6 @@ namespace BibliotecaLosInge
 
             if (_prestamoEnEdicion == null)
             {
-                // Crear un nuevo préstamo
                 Prestamo prestamo = new Prestamo(
                     miembroSeleccionado,
                     libroSeleccionado,
@@ -114,7 +103,7 @@ namespace BibliotecaLosInge
                     if (libroFisico.Cantidad > 0)
                     {
                         libroFisico.Cantidad--;
-                        ActualizarListaLibros();
+                        _dataManager.ActualizarListaLibros();
                     }
                     else
                     {
@@ -125,7 +114,6 @@ namespace BibliotecaLosInge
             }
             else
             {
-                // Modificar el préstamo existente
                 Prestamo prestamoModificado = new Prestamo(
                     miembroSeleccionado,
                     libroSeleccionado,
@@ -154,16 +142,11 @@ namespace BibliotecaLosInge
             if (prestamoSeleccionado.Libro is LibroFisico libroFisico)
             {
                 libroFisico.Cantidad++;
-                ActualizarListaLibros();
+                _dataManager.ActualizarListaLibros();
             }
 
             _dataManager.EliminarPrestamo(prestamoSeleccionado);
             ActualizarListaPrestamos();
-        }
-
-        private void lstPrestamos_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            btnEliminarPrestamo.Enabled = lstPrestamos.SelectedItem != null;
         }
 
         private void btnModificarPrestamo_Click(object sender, EventArgs e)
@@ -190,76 +173,30 @@ namespace BibliotecaLosInge
             dtpFechaDevolucion.Value = prestamoSeleccionado.FechaDevolucion;
 
             _prestamoEnEdicion = prestamoSeleccionado;
-            btnAgregarPrestamo.Text = "Guardar Cambios";
+            btnAgregarPrestamo.Text = "Modificar";
         }
 
         private void ActualizarListaPrestamos()
         {
             lstPrestamos.Items.Clear();
-            _ubicacionesPrestamos.Clear(); // Limpiar ubicaciones previas
-
             foreach (var prestamo in _dataManager.ObtenerPrestamos())
             {
-                string ubicacionPrestamo = prestamo.Libro switch
-                {
-                    LibroFisico libroFisico => GenerarUbicacionPrestamo(libroFisico),
-                    _ => ""
-                };
-
-                _ubicacionesPrestamos[prestamo] = ubicacionPrestamo;
-
-                string textoPrestamo = prestamo.Libro switch
-                {
-                    LibroFisico libroFisico => $"Miembro: {prestamo.Miembro.Nombre} ha tomado prestado el \"{libroFisico.Titulo}\" del estante: \"{ubicacionPrestamo}\" Tipo: Físico, Fecha de Retirada: {prestamo.FechaSalida.ToShortDateString()}, lo devolverá el: {prestamo.FechaDevolucion.ToShortDateString()}",
-                    LibroElectronico libroElectronico => $"Miembro: {prestamo.Miembro.Nombre} se le ha dado acceso al libro \"{libroElectronico.Titulo}\" Tipo: Electrónico, Formato: {libroElectronico.Formato}, Fecha de Retirada: {prestamo.FechaSalida.ToShortDateString()}, lo devolverá el: {prestamo.FechaDevolucion.ToShortDateString()}",
-                    _ => ""
-                };
-
-                lstPrestamos.Items.Add(textoPrestamo);
-            }
-        }
-
-        private void ActualizarListaLibros()
-        {
-            ListFisico.Items.Clear();
-            ListElectronico.Items.Clear();
-
-            foreach (var libro in _dataManager.ObtenerLibros())
-            {
-                if (libro is LibroFisico libroFisico)
-                {
-                    ListFisico.Items.Add(libroFisico);
-                }
-                else if (libro is LibroElectronico libroElectronico)
-                {
-                    ListElectronico.Items.Add(libroElectronico);
-                }
+                lstPrestamos.Items.Add(prestamo);
             }
         }
 
         private Libro ObtenerLibroSeleccionado()
         {
-            if (ListFisico.Enabled && ListFisico.SelectedItem != null)
+            if (cboTipoLibro.SelectedItem?.ToString() == "Libro Físico")
+            {
                 return ListFisico.SelectedItem as Libro;
-
-            if (ListElectronico.Enabled && ListElectronico.SelectedItem != null)
+            }
+            else if (cboTipoLibro.SelectedItem?.ToString() == "Libro Electrónico")
+            {
                 return ListElectronico.SelectedItem as Libro;
-
+            }
             return null;
-        }
-
-        private char GenerarUbicacionAleatoria()
-        {
-            Random random = new Random();
-            return (char)random.Next('A', 'Z' + 1);
-        }
-
-        private string GenerarUbicacionPrestamo(LibroFisico libroFisico)
-        {
-            string[] estantes = { "P1A", "P2A", "P3A", "P1B", "P2B", "P3B", "P1C", "P2C", "P3C" };
-            Random random = new Random();
-            return estantes[random.Next(estantes.Length)];
         }
     }
 }
-//AYUDA TENGO SUEÑO
+//A dormir
