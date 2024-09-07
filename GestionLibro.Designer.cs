@@ -25,7 +25,7 @@
         txtTitulo = new TextBox();
         txtAutor = new TextBox();
         txtAñoPublicacion = new TextBox();
-        cboTipoLibro = new ComboBox(); // Añadir aquí la inicialización del ComboBox
+        cboTipoLibro = new ComboBox();
         btnAgregarLibro = new Button();
         btnEliminarLibro = new Button();
         btnModificarLibro = new Button();
@@ -120,8 +120,9 @@
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
+        BackColor = SystemColors.ControlText;
         ClientSize = new Size(371, 310);
-        Controls.Add(cboTipoLibro); // Añadir el ComboBox al formulario
+        Controls.Add(cboTipoLibro);
         Controls.Add(btnModificarLibro);
         Controls.Add(btnEliminarLibro);
         Controls.Add(btnAgregarLibro);
@@ -129,6 +130,7 @@
         Controls.Add(txtAutor);
         Controls.Add(txtTitulo);
         Controls.Add(lstLibros);
+        ForeColor = SystemColors.ControlLight;
         Name = "GestionLibro";
         Text = "Gestión de Libros";
         ResumeLayout(false);

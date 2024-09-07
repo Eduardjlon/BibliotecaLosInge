@@ -80,7 +80,7 @@ public partial class GestionLibro : Form
                     libroFisico.Cantidad++;
                     MessageBox.Show($"El libro físico '{titulo}' ya existe. La cantidad ha sido incrementada a {libroFisico.Cantidad}.");
                     ActualizarListaLibros();
-                    return; // Salir del método para evitar agregar un libro nuevo
+                    return;
                 }
             }
 
@@ -91,17 +91,30 @@ public partial class GestionLibro : Form
                 MostrarLibroEnLista(nuevoLibroFisico);
             }
         }
-        else if (tipoLibro == "Electrónico - PDF")
+        else if (tipoLibro == "Electrónico - PDF" || tipoLibro == "Electrónico - URL")
         {
-            LibroElectronico nuevoLibroElectronicoPDF = new LibroElectronico(titulo, autor, añoPublicacion, "PDF");
-            DataManager.Instance.AgregarLibro(nuevoLibroElectronicoPDF);
-            MostrarLibroEnLista(nuevoLibroElectronicoPDF);
-        }
-        else if (tipoLibro == "Electrónico - URL")
-        {
-            LibroElectronico nuevoLibroElectronicoURL = new LibroElectronico(titulo, autor, añoPublicacion, "URL");
-            DataManager.Instance.AgregarLibro(nuevoLibroElectronicoURL);
-            MostrarLibroEnLista(nuevoLibroElectronicoURL);
+            string formato = tipoLibro == "Electrónico - PDF" ? "PDF" : "URL";
+            bool libroExistente = false;
+            foreach (Libro libro in DataManager.Instance.ObtenerLibros())
+            {
+                if (libro is LibroElectronico libroElectronico &&
+                    libroElectronico.Titulo == titulo &&
+                    libroElectronico.Autor == autor &&
+                    libroElectronico.AñoPublicacion == añoPublicacion &&
+                    libroElectronico.Formato == formato)
+                {
+                    libroExistente = true;
+                    MessageBox.Show($"El libro electrónico '{titulo}' ya existe en formato {formato}. No es necesario agregarlo nuevamente.");
+                    return;
+                }
+            }
+
+            if (!libroExistente)
+            {
+                LibroElectronico nuevoLibroElectronico = new LibroElectronico(titulo, autor, añoPublicacion, formato);
+                DataManager.Instance.AgregarLibro(nuevoLibroElectronico);
+                MostrarLibroEnLista(nuevoLibroElectronico);
+            }
         }
 
         LimpiarCampos();
@@ -117,7 +130,7 @@ public partial class GestionLibro : Form
                 {
                     libroFisico.Cantidad--;
                     MessageBox.Show($"La cantidad de '{libroFisico.Titulo}' ha sido reducida a {libroFisico.Cantidad}.");
-                    ActualizarListaLibros(); // Actualiza la lista con la nueva cantidad
+                    ActualizarListaLibros();
                 }
                 else
                 {
@@ -161,6 +174,8 @@ public partial class GestionLibro : Form
             }
 
             int añoPublicacion = int.Parse(txtAñoPublicacion.Text);
+
+            // Actualizar la información del libro
             libroSeleccionado.Titulo = titulo;
             libroSeleccionado.Autor = autor;
             libroSeleccionado.AñoPublicacion = añoPublicacion;
@@ -226,7 +241,8 @@ public partial class GestionLibro : Form
 
     private void TxtAñoPublicacion_KeyPress(object sender, KeyPressEventArgs e)
     {
-        if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)Keys.Back)
+        // Solo permitir números
+        if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
         {
             e.Handled = true;
         }

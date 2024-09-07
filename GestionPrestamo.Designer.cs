@@ -81,6 +81,7 @@
             // btnAgregarPrestamo
             // 
             btnAgregarPrestamo.BackColor = Color.Lime;
+            btnAgregarPrestamo.ForeColor = Color.Black;
             btnAgregarPrestamo.Location = new Point(643, 244);
             btnAgregarPrestamo.Name = "btnAgregarPrestamo";
             btnAgregarPrestamo.Size = new Size(66, 28);
@@ -188,6 +189,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.Black;
             ClientSize = new Size(721, 369);
             Controls.Add(label1);
             Controls.Add(cboTipoLibro);
@@ -203,6 +205,7 @@
             Controls.Add(dtpFechaSalida);
             Controls.Add(cboNombreMiembro);
             Controls.Add(lstPrestamos);
+            ForeColor = Color.White;
             Name = "GestionPrestamo";
             Text = "Gestión de Préstamos";
             ResumeLayout(false);

@@ -120,4 +120,9 @@ public partial class GestionMiembro : Form
             txtNumeroMiembro.SelectionStart = txtNumeroMiembro.Text.Length; // Mueve el cursor al final
         }
     }
+
+    private void GestionMiembro_Load(object sender, EventArgs e)
+    {
+
+    }
 }

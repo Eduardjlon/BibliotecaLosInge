@@ -27,5 +27,10 @@ namespace BibliotecaLosInge
             GestionPrestamo gestionPrestamoForm = new GestionPrestamo();
             gestionPrestamoForm.ShowDialog();
         }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
