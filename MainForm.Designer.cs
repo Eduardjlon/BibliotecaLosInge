@@ -26,13 +26,15 @@
             btnGestionPrestamo = new Button();
             Creditos = new Label();
             Propietarios = new Label();
+            pictureBox1 = new PictureBox();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // btnGestionLibro
             // 
             btnGestionLibro.BackColor = Color.Lime;
             btnGestionLibro.Font = new Font("Showcard Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnGestionLibro.Location = new Point(53, 54);
+            btnGestionLibro.Location = new Point(48, 44);
             btnGestionLibro.Name = "btnGestionLibro";
             btnGestionLibro.Size = new Size(150, 61);
             btnGestionLibro.TabIndex = 0;
@@ -44,7 +46,7 @@
             // 
             btnGestionMiembro.BackColor = Color.Cyan;
             btnGestionMiembro.Font = new Font("Showcard Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnGestionMiembro.Location = new Point(209, 120);
+            btnGestionMiembro.Location = new Point(204, 110);
             btnGestionMiembro.Name = "btnGestionMiembro";
             btnGestionMiembro.Size = new Size(150, 61);
             btnGestionMiembro.TabIndex = 1;
@@ -56,7 +58,7 @@
             // 
             btnGestionPrestamo.BackColor = Color.Teal;
             btnGestionPrestamo.Font = new Font("Showcard Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnGestionPrestamo.Location = new Point(365, 54);
+            btnGestionPrestamo.Location = new Point(360, 44);
             btnGestionPrestamo.Name = "btnGestionPrestamo";
             btnGestionPrestamo.Size = new Size(150, 61);
             btnGestionPrestamo.TabIndex = 2;
@@ -97,10 +99,20 @@
             Propietarios.TextAlign = ContentAlignment.BottomCenter;
             Propietarios.Click += label1_Click;
             // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = Properties.Resources.WhatsApp_Image_2024_09_07_at_1_04_50_AM__2_;
+            pictureBox1.Location = new Point(378, 157);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(132, 95);
+            pictureBox1.TabIndex = 5;
+            pictureBox1.TabStop = false;
+            // 
             // MainForm
             // 
             BackColor = SystemColors.ControlText;
             ClientSize = new Size(617, 261);
+            Controls.Add(pictureBox1);
             Controls.Add(Propietarios);
             Controls.Add(Creditos);
             Controls.Add(btnGestionPrestamo);
@@ -108,6 +120,7 @@
             Controls.Add(btnGestionLibro);
             Name = "MainForm";
             Text = "Biblioteca Los Inge";
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -119,5 +132,6 @@
         private System.Windows.Forms.Button btnGestionPrestamo;
         private Label Creditos;
         private Label Propietarios;
+        private PictureBox pictureBox1;
     }
 }
