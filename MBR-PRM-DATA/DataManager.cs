@@ -39,7 +39,7 @@ namespace BibliotecaLosInge
         {
             if (libro is LibroFisico libroFisico)
             {
-                var clave = (libroFisico.Titulo, libroFisico.Autor, libroFisico.AñoPublicacion);
+                (string Titulo, string Autor, int AñoPublicacion) clave = (libroFisico.Titulo, libroFisico.Autor, libroFisico.AñoPublicacion);
                 if (librosFisicos.ContainsKey(clave))
                 {
                     // Si el libro ya existe, actualizamos la cantidad
@@ -65,7 +65,7 @@ namespace BibliotecaLosInge
         {
             if (libro is LibroFisico libroFisico)
             {
-                var clave = (libroFisico.Titulo, libroFisico.Autor, libroFisico.AñoPublicacion);
+                (string Titulo, string Autor, int AñoPublicacion) clave = (libroFisico.Titulo, libroFisico.Autor, libroFisico.AñoPublicacion);
                 if (librosFisicos.ContainsKey(clave))
                 {
                     // Disminuimos la cantidad o eliminamos si es 1
@@ -89,12 +89,15 @@ namespace BibliotecaLosInge
         public void ActualizarListaLibros() // Cambiado a public
         {
             libros.Clear();
-            foreach (var kvp in librosFisicos)
+            foreach (KeyValuePair<(string Titulo, string Autor, int AñoPublicacion), int> kvp in librosFisicos)
             {
-                var (titulo, autor, añoPublicacion) = kvp.Key;
-                var cantidad = kvp.Value;
+                string titulo = kvp.Key.Titulo;
+                string autor = kvp.Key.Autor;
+                int añoPublicacion = kvp.Key.AñoPublicacion;
+                int cantidad = kvp.Value;
+
                 // Creamos una instancia de LibroFisico con cantidad indicada
-                var libro = new LibroFisico(titulo, autor, añoPublicacion); // Aquí solo necesitamos los argumentos básicos
+                LibroFisico libro = new LibroFisico(titulo, autor, añoPublicacion); // Aquí solo necesitamos los argumentos básicos
                 libros.Add(libro);
             }
         }
@@ -131,7 +134,7 @@ namespace BibliotecaLosInge
         public void ModificarPrestamo(Prestamo prestamo)
         {
             // Encuentra el índice del préstamo a modificar
-            var index = prestamos.IndexOf(prestamo);
+            int index = prestamos.IndexOf(prestamo);
             if (index >= 0)
             {
                 prestamos[index] = prestamo; // Actualiza el préstamo en la lista

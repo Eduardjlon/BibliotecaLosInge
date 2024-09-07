@@ -21,7 +21,7 @@ namespace BibliotecaLosInge
         private void CargarMiembros()
         {
             cboNombreMiembro.Items.Clear();
-            foreach (var miembro in _dataManager.ObtenerMiembros())
+            foreach (Miembro miembro in _dataManager.ObtenerMiembros())
             {
                 cboNombreMiembro.Items.Add(miembro);
             }
@@ -32,7 +32,7 @@ namespace BibliotecaLosInge
             ListFisico.Items.Clear();
             ListElectronico.Items.Clear();
 
-            foreach (var libro in _dataManager.ObtenerLibros())
+            foreach (Libro libro in _dataManager.ObtenerLibros())
             {
                 if (libro is LibroFisico libroFisico)
                 {
@@ -178,7 +178,7 @@ namespace BibliotecaLosInge
         private void ActualizarListaPrestamos()
         {
             lstPrestamos.Items.Clear();
-            foreach (var prestamo in _dataManager.ObtenerPrestamos())
+            foreach (Prestamo prestamo in _dataManager.ObtenerPrestamos())
             {
                 lstPrestamos.Items.Add(prestamo);
             }
@@ -197,4 +197,4 @@ namespace BibliotecaLosInge
             return null;
         }
     }
-}// ahora si a dormir
+}

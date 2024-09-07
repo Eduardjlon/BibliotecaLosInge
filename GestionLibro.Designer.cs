@@ -5,7 +5,7 @@
     private System.Windows.Forms.TextBox txtTitulo;
     private System.Windows.Forms.TextBox txtAutor;
     private System.Windows.Forms.TextBox txtAñoPublicacion;
-    private System.Windows.Forms.ComboBox cboTipoLibro; // Añadir esta línea para definir el ComboBox
+    private System.Windows.Forms.ComboBox cboTipoLibro; 
     private System.Windows.Forms.Button btnAgregarLibro;
     private System.Windows.Forms.Button btnEliminarLibro;
     private System.Windows.Forms.Button btnModificarLibro;
