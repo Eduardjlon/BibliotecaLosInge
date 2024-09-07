@@ -9,13 +9,15 @@ namespace BibliotecaLosInge
     {
         private DataManager _dataManager;
         private Prestamo _prestamoEnEdicion;
-        private Dictionary<LibroFisico, char> _ubicacionesLibrosFisicos;
+        private Dictionary<LibroFisico, char> _ubicacionesLibrosFisicos; // Ubicación generada aleatoriamente
+        private Dictionary<Prestamo, string> _ubicacionesPrestamos; // Ubicación para mostrar
 
         public GestionPrestamo()
         {
             InitializeComponent();
             _dataManager = DataManager.Instance;
             _ubicacionesLibrosFisicos = new Dictionary<LibroFisico, char>();
+            _ubicacionesPrestamos = new Dictionary<Prestamo, string>();
             CargarMiembros();
             CargarLibros();
             InicializarEstados();
@@ -194,16 +196,26 @@ namespace BibliotecaLosInge
         private void ActualizarListaPrestamos()
         {
             lstPrestamos.Items.Clear();
+            _ubicacionesPrestamos.Clear(); // Limpiar ubicaciones previas
+
             foreach (var prestamo in _dataManager.ObtenerPrestamos())
             {
+                string ubicacionPrestamo = prestamo.Libro switch
+                {
+                    LibroFisico libroFisico => GenerarUbicacionPrestamo(libroFisico),
+                    _ => ""
+                };
+
+                _ubicacionesPrestamos[prestamo] = ubicacionPrestamo;
+
                 string textoPrestamo = prestamo.Libro switch
                 {
-                    LibroFisico libroFisico => $"Miembro: {prestamo.Miembro.Nombre} ha tomado prestado el \"{libroFisico.Titulo}\" del estante: \"{_ubicacionesLibrosFisicos[libroFisico]}\" Tipo: Físico, Fecha de Retirada: {prestamo.FechaSalida.ToShortDateString()}, lo devolverá el: {prestamo.FechaDevolucion.ToShortDateString()}",
+                    LibroFisico libroFisico => $"Miembro: {prestamo.Miembro.Nombre} ha tomado prestado el \"{libroFisico.Titulo}\" del estante: \"{ubicacionPrestamo}\" Tipo: Físico, Fecha de Retirada: {prestamo.FechaSalida.ToShortDateString()}, lo devolverá el: {prestamo.FechaDevolucion.ToShortDateString()}",
                     LibroElectronico libroElectronico => $"Miembro: {prestamo.Miembro.Nombre} se le ha dado acceso al libro \"{libroElectronico.Titulo}\" Tipo: Electrónico, Formato: {libroElectronico.Formato}, Fecha de Retirada: {prestamo.FechaSalida.ToShortDateString()}, lo devolverá el: {prestamo.FechaDevolucion.ToShortDateString()}",
                     _ => ""
                 };
 
-                lstPrestamos.Items.Add(prestamo);
+                lstPrestamos.Items.Add(textoPrestamo);
             }
         }
 
@@ -241,5 +253,13 @@ namespace BibliotecaLosInge
             Random random = new Random();
             return (char)random.Next('A', 'Z' + 1);
         }
+
+        private string GenerarUbicacionPrestamo(LibroFisico libroFisico)
+        {
+            string[] estantes = { "P1A", "P2A", "P3A", "P1B", "P2B", "P3B", "P1C", "P2C", "P3C" };
+            Random random = new Random();
+            return estantes[random.Next(estantes.Length)];
+        }
     }
 }
+//AYUDA TENGO SUEÑO
