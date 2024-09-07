@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -8,11 +9,13 @@ namespace BibliotecaLosInge
     {
         private DataManager _dataManager;
         private Prestamo _prestamoEnEdicion;
+        private Dictionary<LibroFisico, char> _ubicacionesLibrosFisicos;
 
         public GestionPrestamo()
         {
             InitializeComponent();
             _dataManager = DataManager.Instance;
+            _ubicacionesLibrosFisicos = new Dictionary<LibroFisico, char>();
             CargarMiembros();
             CargarLibros();
             InicializarEstados();
@@ -35,13 +38,18 @@ namespace BibliotecaLosInge
 
             foreach (var libro in _dataManager.ObtenerLibros())
             {
-                if (libro is LibroFisico)
+                if (libro is LibroFisico libroFisico)
                 {
-                    ListFisico.Items.Add(libro);
+                    ListFisico.Items.Add(libroFisico);
+                    // Asignar ubicación aleatoria si aún no se ha asignado
+                    if (!_ubicacionesLibrosFisicos.ContainsKey(libroFisico))
+                    {
+                        _ubicacionesLibrosFisicos[libroFisico] = GenerarUbicacionAleatoria();
+                    }
                 }
-                else if (libro is LibroElectronico)
+                else if (libro is LibroElectronico libroElectronico)
                 {
-                    ListElectronico.Items.Add(libro);
+                    ListElectronico.Items.Add(libroElectronico);
                 }
             }
         }
@@ -151,6 +159,11 @@ namespace BibliotecaLosInge
             ActualizarListaPrestamos();
         }
 
+        private void lstPrestamos_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            btnEliminarPrestamo.Enabled = lstPrestamos.SelectedItem != null;
+        }
+
         private void btnModificarPrestamo_Click(object sender, EventArgs e)
         {
             Prestamo prestamoSeleccionado = lstPrestamos.SelectedItem as Prestamo;
@@ -161,10 +174,10 @@ namespace BibliotecaLosInge
             }
 
             cboNombreMiembro.SelectedItem = prestamoSeleccionado.Miembro;
-            if (prestamoSeleccionado.Libro is LibroFisico)
+            if (prestamoSeleccionado.Libro is LibroFisico libroFisico)
             {
                 cboTipoLibro.SelectedItem = "Libro Físico";
-                ListFisico.SelectedItem = prestamoSeleccionado.Libro;
+                ListFisico.SelectedItem = libroFisico;
             }
             else
             {
@@ -183,6 +196,13 @@ namespace BibliotecaLosInge
             lstPrestamos.Items.Clear();
             foreach (var prestamo in _dataManager.ObtenerPrestamos())
             {
+                string textoPrestamo = prestamo.Libro switch
+                {
+                    LibroFisico libroFisico => $"Miembro: {prestamo.Miembro.Nombre} ha tomado prestado el \"{libroFisico.Titulo}\" del estante: \"{_ubicacionesLibrosFisicos[libroFisico]}\" Tipo: Físico, Fecha de Retirada: {prestamo.FechaSalida.ToShortDateString()}, lo devolverá el: {prestamo.FechaDevolucion.ToShortDateString()}",
+                    LibroElectronico libroElectronico => $"Miembro: {prestamo.Miembro.Nombre} se le ha dado acceso al libro \"{libroElectronico.Titulo}\" Tipo: Electrónico, Formato: {libroElectronico.Formato}, Fecha de Retirada: {prestamo.FechaSalida.ToShortDateString()}, lo devolverá el: {prestamo.FechaDevolucion.ToShortDateString()}",
+                    _ => ""
+                };
+
                 lstPrestamos.Items.Add(prestamo);
             }
         }
@@ -194,13 +214,13 @@ namespace BibliotecaLosInge
 
             foreach (var libro in _dataManager.ObtenerLibros())
             {
-                if (libro is LibroFisico)
+                if (libro is LibroFisico libroFisico)
                 {
-                    ListFisico.Items.Add(libro);
+                    ListFisico.Items.Add(libroFisico);
                 }
-                else if (libro is LibroElectronico)
+                else if (libro is LibroElectronico libroElectronico)
                 {
-                    ListElectronico.Items.Add(libro);
+                    ListElectronico.Items.Add(libroElectronico);
                 }
             }
         }
@@ -215,6 +235,11 @@ namespace BibliotecaLosInge
 
             return null;
         }
+
+        private char GenerarUbicacionAleatoria()
+        {
+            Random random = new Random();
+            return (char)random.Next('A', 'Z' + 1);
+        }
     }
 }
-//ya vi el error, pero ya tengo sueño
