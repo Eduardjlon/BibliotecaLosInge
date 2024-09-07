@@ -26,12 +26,15 @@
             {
                 if (libroElectronico.Formato == "PDF")
                 {
-                    mensajeAdicional = libroElectronico.ObtenerTamaño();
+                    // Obtener tamaño aleatorio en MB para el archivo PDF
+                    string tamañoPdf = libroElectronico.ObtenerTamaño();
+                    // Mensaje para libro PDF
+                    return $"{Miembro.Nombre} ha recibido el archivo PDF del libro '{Libro.Titulo}' el {FechaSalida.ToShortDateString()}, tamaño: {tamañoPdf}, con fecha de devolución: {FechaDevolucion.ToShortDateString()}.";
                 }
                 else if (libroElectronico.Formato == "URL")
                 {
                     // Mostrar solo fecha de entrega y el link de acceso para libros en formato URL
-                    return $"{Miembro.Nombre} recibió un link de acceso al libro '{Libro.Titulo}' el {FechaSalida.ToShortDateString()}.";
+                    return $"{Miembro.Nombre} se le brindó un link de acceso al libro '{Libro.Titulo}' el {FechaSalida.ToShortDateString()}.";
                 }
             }
             else if (!EsElectronico && Libro is LibroFisico libroFisico)

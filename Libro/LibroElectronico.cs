@@ -1,38 +1,37 @@
 ﻿using System;
 
-namespace BibliotecaLosInge
+public class LibroElectronico : Libro
 {
-    public class LibroElectronico : Libro
+    public string Formato { get; set; }
+    private string _tamañoPdf; // Propiedad privada para almacenar el tamaño de PDF
+
+    public LibroElectronico(string titulo, string autor, int añoPublicacion, string formato)
+        : base(titulo, autor, añoPublicacion, "Electrónico")
     {
-        public LibroElectronico(string titulo, string autor, int añoPublicacion, string formato)
-            : base(titulo, autor, añoPublicacion, "Electrónico")
-        {
-            Formato = formato;
-        }
+        Formato = formato;
+        _tamañoPdf = GenerarTamañoSiEsPdf(); // Generar el tamaño al crear el libro si es PDF
+    }
 
-        public LibroElectronico(string titulo, string autor, int añoPublicacion)
-            : base(titulo, autor, añoPublicacion, "Electrónico")
+    // Método para generar el tamaño si el formato es PDF
+    private string GenerarTamañoSiEsPdf()
+    {
+        if (Formato == "PDF" && string.IsNullOrEmpty(_tamañoPdf))
         {
-            Formato = "PDF";
+            Random random = new Random();
+            int tamañoMB = random.Next(1, 1000); // Tamaño aleatorio entre 1 y 999 MB
+            return $"{tamañoMB} MB";
         }
+        return _tamañoPdf;
+    }
 
-        public string Formato { get; set; }
+    // Método público para obtener el tamaño del PDF (que ya se generó al crear el libro)
+    public string ObtenerTamaño()
+    {
+        return _tamañoPdf;
+    }
 
-        public string ObtenerTamaño()
-        {
-            if (Formato == "PDF")
-            {
-                var random = new Random();
-                int tamañoMb = random.Next(1, 1000); // Genera un número aleatorio entre 1 y 999
-                return $"Tamaño: {tamañoMb} MB";
-            }
-            return "";
-        }
-
-        public override string ToString()
-        {
-            var tamaño = ObtenerTamaño();
-            return $"{Titulo} - {Autor} ({AñoPublicacion}) - Tipo: {Tipo} - Formato: {Formato} {tamaño}";
-        }
+    public override string ToString()
+    {
+        return $"{Titulo} - {Autor} ({AñoPublicacion}) - Tipo: {Tipo} - Formato: {Formato}";
     }
 }
