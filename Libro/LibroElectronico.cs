@@ -9,7 +9,7 @@
 
     // Constructor que solo recibe los parámetros básicos y asigna un formato por defecto
     public LibroElectronico(string titulo, string autor, int añoPublicacion)
-        : base(titulo, autor, añoPublicacion, "Electrónico") // Llama al constructor base de Libro con "Electrónico" como tipo
+        : base(titulo, autor, añoPublicacion, "Electrónico") // Llama al constructor base de Libro con "Electrónico" como 
     {
         Formato = "PDF"; // Asigna un formato por defecto si no se proporciona
     }
